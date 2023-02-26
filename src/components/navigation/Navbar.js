@@ -26,7 +26,7 @@ const Icons = styled("Box")(({ theme }) => ({
   gap: "20px",
 }));
 
-const Navbar = ({ mode, setMode }) => {
+const Navbar = ({ themeMode, setThemeMode }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   return (
@@ -44,7 +44,7 @@ const Navbar = ({ mode, setMode }) => {
           onClose={() => setIsDrawerOpen(false)}
         >
           <Box width="200px" role="presentation">
-            <Sidebar setMode={setMode} mode={mode} />
+            <Sidebar setThemeMode={setThemeMode} themeMode={themeMode} />
           </Box>
         </Drawer>
         <Typography variant="h6">

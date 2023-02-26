@@ -15,9 +15,20 @@ import {
   Paper,
   Switch,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
-const Sidebar = ({ mode, setMode }) => {
+const Sidebar = ({ themeMode, setThemeMode }) => {
+  // darkmode
+  const toggleTheme = () => {
+    const newTheme = themeMode === "light" ? "dark" : "light";
+    setThemeMode(newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("theme", themeMode);
+  }, [themeMode]);
+
   return (
     <Box>
       <Box position="fixed" width={200} height="100vh" component={Paper}>
@@ -85,9 +96,7 @@ const Sidebar = ({ mode, setMode }) => {
             <ListItemIcon>
               <ModeNight />
             </ListItemIcon>
-            <Switch
-              onChange={() => setMode(mode === "light" ? "dark" : "light")}
-            />
+            <Switch onChange={toggleTheme} />
           </ListItem>
         </List>
       </Box>

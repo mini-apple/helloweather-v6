@@ -9,11 +9,13 @@ import Router from "Router";
 import Footer from "components/Footer";
 
 const Layout = () => {
-  const [mode, setMode] = useState("light");
+  const [themeMode, setThemeMode] = useState(
+    localStorage.getItem("theme") || "light"
+  );
 
   const darkTheme = createTheme({
     palette: {
-      mode: mode,
+      mode: themeMode,
       whiteness: {
         main: "#ffffff",
       },
@@ -22,7 +24,7 @@ const Layout = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Box bgcolor={"background.default"} color={"text.primary"}>
-        <Navbar setMode={setMode} mode={mode} />
+        <Navbar setThemeMode={setThemeMode} themeMode={themeMode} />
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box
             flex={1}
@@ -31,7 +33,7 @@ const Layout = () => {
               height: "100vh",
             }}
           >
-            <Sidebar setMode={setMode} mode={mode} />
+            <Sidebar setThemeMode={setThemeMode} themeMode={themeMode} />
           </Box>
           <Box flex={5}>
             <Stack>
