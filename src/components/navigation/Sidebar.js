@@ -12,18 +12,15 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Paper,
   Switch,
 } from "@mui/material";
 import React from "react";
 
 const Sidebar = ({ mode, setMode }) => {
   return (
-    <Box
-      sx={{
-        display: { xs: "none", sm: "block" },
-      }}
-    >
-      <Box position="fixed" width={200}>
+    <Box>
+      <Box position="fixed" width={200} height="100vh" component={Paper}>
         <List>
           <ListItem disablePadding>
             <ListItemButton component="a" href="/">

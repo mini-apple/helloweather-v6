@@ -9,8 +9,8 @@ const Home = () => {
   return (
     <Box>
       <Box
-        p={5}
         sx={{
+          padding: { xs: "1", sm: "5" },
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -18,11 +18,16 @@ const Home = () => {
         }}
       >
         <Box>
-          <Box fontSize={80} mt={10} mb={4} className="test">
+          <Box
+            mt={10}
+            mb={4}
+            className="test"
+            sx={{ fontSize: { xs: "3rem", sm: "5rem" } }}
+          >
             환영합니다
           </Box>
           <Fade in={true} timeout={4000}>
-            <Box fontSize={20} mb={10}>
+            <Box mb={10} sx={{ fontSize: { xs: "1rem", sm: "1.5rem" } }}>
               부산대학교 대기환경과학과 학술동아리 Hello Weather입니다.
             </Box>
           </Fade>
