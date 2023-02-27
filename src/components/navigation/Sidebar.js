@@ -16,6 +16,7 @@ import {
   Switch,
 } from "@mui/material";
 import React, { useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const Sidebar = ({ themeMode, setThemeMode }) => {
   // darkmode
@@ -29,77 +30,95 @@ const Sidebar = ({ themeMode, setThemeMode }) => {
     localStorage.setItem("theme", themeMode);
   }, [themeMode]);
 
+  const theme = createTheme({
+    typography: {
+      fontFamily: "'Noto Sans Kr', sans-serif",
+    },
+  });
+
   return (
-    <Box>
-      <Box position="fixed" width={200} height="100vh" component={Paper}>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/">
-              <ListItemIcon>
-                <Home />
-              </ListItemIcon>
-              <ListItemText primary="Homepage" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/profile">
-              <ListItemIcon>
-                <AccountBox />
-              </ListItemIcon>
-              <ListItemText primary="My Profile" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/member">
-              <ListItemIcon>
-                <PeopleAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="Members" />
-            </ListItemButton>
-          </ListItem>
-          <Divider />
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/forecast">
-              <ListItemIcon>
-                <ThermostatIcon />
-              </ListItemIcon>
-              <ListItemText primary="예보게임" />
-            </ListItemButton>
-          </ListItem>
-          <Divider />
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/calculator">
-              <ListItemIcon>
-                <CalculateOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="채점하기" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/string">
-              <ListItemIcon>
-                <CachedOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="정답코드" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="/criteria">
-              <ListItemIcon>
-                <TableChartOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="채점기준" />
-            </ListItemButton>
-          </ListItem>
-          <Divider />
-          <ListItem>
+    <Box position="fixed" width={200} height="100vh" component={Paper}>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/">
             <ListItemIcon>
-              <ModeNight />
+              <Home />
             </ListItemIcon>
-            <Switch onChange={toggleTheme} />
-          </ListItem>
-        </List>
-      </Box>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="Home" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/profile">
+            <ListItemIcon>
+              <AccountBox />
+            </ListItemIcon>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="My Profile" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/member">
+            <ListItemIcon>
+              <PeopleAltIcon />
+            </ListItemIcon>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="Members" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/forecast">
+            <ListItemIcon>
+              <ThermostatIcon />
+            </ListItemIcon>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="예보게임" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/calculator">
+            <ListItemIcon>
+              <CalculateOutlinedIcon />
+            </ListItemIcon>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="채점하기" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/string">
+            <ListItemIcon>
+              <CachedOutlinedIcon />
+            </ListItemIcon>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="정답코드" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component="a" href="/criteria">
+            <ListItemIcon>
+              <TableChartOutlinedIcon />
+            </ListItemIcon>
+            <ThemeProvider theme={theme}>
+              <ListItemText primary="채점기준" />
+            </ThemeProvider>
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemIcon>
+            <ModeNight />
+          </ListItemIcon>
+          <Switch onChange={toggleTheme} />
+        </ListItem>
+      </List>
     </Box>
   );
 };

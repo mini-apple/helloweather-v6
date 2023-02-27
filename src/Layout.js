@@ -3,9 +3,8 @@ import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "components/navigation/Navbar";
 import Sidebar from "components/navigation/Sidebar";
-import Homepage from "components/home/Homepage";
-import { Stack } from "@mui/material";
 import Router from "Router";
+import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 
 const Layout = () => {
@@ -23,23 +22,27 @@ const Layout = () => {
   });
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"background.default"} color={"text.primary"}>
+      <Box bgcolor={"background.default"} color={"text.secondary"}>
         <Navbar setThemeMode={setThemeMode} themeMode={themeMode} />
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box
-            flex={1}
-            sx={{
-              display: { xs: "none", sm: "block" },
-              height: "100vh",
-            }}
-          >
-            <Sidebar setThemeMode={setThemeMode} themeMode={themeMode} />
-          </Box>
-          <Box flex={5}>
-            <Stack>
-              <Router />
-            </Stack>
-          </Box>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container>
+            <Grid item xs={12} md={2}>
+              <Box
+                sx={{
+                  display: { xs: "none", md: "block" },
+                  height: "100vh",
+                }}
+              >
+                <Sidebar setThemeMode={setThemeMode} themeMode={themeMode} />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={10}>
+              <Box>
+                <Router />
+                <Footer />
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </ThemeProvider>
