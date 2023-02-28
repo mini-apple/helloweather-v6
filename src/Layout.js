@@ -24,7 +24,7 @@ const Layout = () => {
     <ThemeProvider theme={darkTheme}>
       <Box bgcolor={"background.default"} color={"text.secondary"}>
         <Navbar setThemeMode={setThemeMode} themeMode={themeMode} />
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }} bgcolor={"action.hover"}>
           <Grid container>
             <Grid item xs={12} md={2}>
               <Box

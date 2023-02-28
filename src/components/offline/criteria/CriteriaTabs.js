@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Paper from "@mui/material/Paper";
-
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
@@ -63,6 +62,7 @@ function CriteriaTabs() {
         sx={{
           margin: { xs: "1rem 0rem", md: "1rem" },
           padding: "1rem",
+          borderRadius: { xs: "0rem", md: "1rem" },
         }}
       >
         <Box
