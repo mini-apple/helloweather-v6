@@ -37,7 +37,7 @@ const Layout = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={10}>
-              <Box>
+              <Box sx={{ padding: { xs: "0rem", md: "0rem 3rem 0rem 0rem" } }}>
                 <Router />
                 <Footer />
               </Box>

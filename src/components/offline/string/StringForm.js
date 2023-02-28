@@ -269,7 +269,7 @@ function StringForm() {
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                borderRadius: "3rem",
+                borderRadius: "5rem",
                 padding: "0rem 0.5rem",
               }}
             >

@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        height: "7rem",
+        height: { xs: "8rem", md: "7rem" },
         padding: { xs: "1rem", md: "1rem" },
-        marginTop: "1.5rem",
+        marginTop: { xs: "0rem", md: "1rem" },
       }}
     >
       <Divider />
