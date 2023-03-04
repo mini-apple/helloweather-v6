@@ -30,7 +30,7 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
           }
         />
 
-        <Route path="/login" element={<LoginUser />} />
+        <Route path="/login" element={<LoginUser isLoggedIn={isLoggedIn} />} />
         <Route path="/register" element={<CreateUser />} />
 
         <Route path="/profile" element={<OnlineProfile />} />
