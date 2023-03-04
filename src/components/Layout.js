@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "components/navigation/Navbar";
 import Sidebar from "components/navigation/Sidebar";
-import Router from "Router";
+import Router from "components/Router";
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const Layout = () => {
+const Layout = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
   const [themeMode, setThemeMode] = useState(
     localStorage.getItem("theme") || "light"
   );
@@ -38,7 +38,11 @@ const Layout = () => {
             </Grid>
             <Grid item xs={12} md={10}>
               <Box sx={{ padding: { xs: "0rem", md: "0rem 3rem 0rem 0rem" } }}>
-                <Router />
+                <Router
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  userObj={userObj}
+                />
                 <Footer />
               </Box>
             </Grid>

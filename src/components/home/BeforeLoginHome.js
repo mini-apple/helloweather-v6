@@ -1,12 +1,19 @@
 import React from "react";
-import { Fade } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import { Fade } from "@mui/material";
 
-import "./Homepage.css";
+import "./BeforeLoginHome.css";
 
-const Home = () => {
+const BeforeLoginHome = () => {
+  let navigate = useNavigate();
+
+  const onLoginPage = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       <Paper
@@ -39,7 +46,9 @@ const Home = () => {
                 부산대학교 대기환경과학과 학술동아리 Hello Weather입니다.
               </Box>
             </Fade>
-            <Button variant="outlined">로그인하여 시작하기</Button>
+            <Button variant="outlined" onClick={onLoginPage}>
+              로그인하여 시작하기
+            </Button>
           </Box>
         </Box>
       </Paper>
@@ -47,4 +56,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default BeforeLoginHome;

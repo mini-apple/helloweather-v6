@@ -20,7 +20,7 @@ const StyledToolbar = styled(Toolbar)({
   justifyContent: "space-between",
 });
 
-const Icons = styled("Box")(({ theme }) => ({
+const Icons = styled(Box)(({ theme }) => ({
   display: "block",
   alignItems: "center",
   gap: "20px",
