@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log("user: ", Boolean(user));
+      console.log("user: ", Boolean(user), user);
       if (user) {
         setUserObj(user);
         setIsLoggedIn(true);

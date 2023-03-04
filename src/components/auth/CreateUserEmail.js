@@ -19,7 +19,11 @@ import { auth, db } from "fbase";
 import { setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
+import { useNavigate } from "react-router-dom";
+
 const CreateUserEmail = () => {
+  const navigate = useNavigate();
+
   const [accountObj, setAccountObj] = useState({
     name: "",
     spaceName: "",
@@ -28,17 +32,6 @@ const CreateUserEmail = () => {
     email: "",
     password: "",
     confirmPassword: "",
-  });
-
-  const [profileObj, setProfileObj] = useState({
-    activeSemester: [],
-    attachmentUrl: "",
-    entranceUniv: "",
-    email: "",
-    forecastLog: {},
-    name: "",
-    spaceName: "",
-    uid: "",
   });
 
   // 비밀번호 보기 핸들링
@@ -101,26 +94,26 @@ const CreateUserEmail = () => {
     }
   };
 
-  // 실제 저장
-  const onSaveProfile = async (userObj) => {
+  // 프로필정보 저장
+  const onSaveProfile = async (user) => {
     const newProfileObj = {
       activeSemester: accountObj.activeSemester,
       attachmentUrl: "",
       entranceUniv: accountObj.entranceUniv,
-      email: userObj.email,
+      email: user.email,
       forecastLog: {},
       name: accountObj.name,
-      spaceName: accountObj.spaceName,
-      uid: userObj.uid,
+      spaceName: "@" + accountObj.spaceName,
+      uid: user.uid,
     };
 
     // firestore에 newProfileObj를 저장
     try {
       const docRef = await setDoc(
-        doc(db, "users", `${userObj.uid}`),
+        doc(db, "users", `${user.uid}`),
         newProfileObj
       );
-      if (userObj.displayName !== newProfileObj.name) {
+      if (user.displayName !== newProfileObj.name) {
         // displayName 업데이트
         await updateProfile(auth.currentUser, {
           displayName: newProfileObj.name,
@@ -131,8 +124,6 @@ const CreateUserEmail = () => {
       console.error("Error adding document: ", e);
       alert("프로필 변경에 실패했습니다!");
     }
-
-    console.log(userObj);
   };
 
   const onEmailCreate = async () => {
@@ -167,15 +158,14 @@ const CreateUserEmail = () => {
     )
       .then((userCredential) => {
         // Signed in
-        const userObj = userCredential.user;
-        console.log(userObj);
+        const user = userCredential.user;
         alert("새로운 계정이 생성되었습니다.");
-        onSaveProfile(userObj);
+        onSaveProfile(user);
+        navigate("/login");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("errorCode: ", errorCode, "errorMessage: ", errorMessage);
         alert(
           `계정생성 오류정보\nerrorCode:  ${errorCode} \nerrorMessage:  ${errorMessage}`
         );
@@ -183,7 +173,7 @@ const CreateUserEmail = () => {
   };
 
   return (
-    <Box className="sign-in-email-container">
+    <Box>
       <Box sx={{ marginBottom: "0.8rem" }}>
         <Alert severity="info">
           User ID란 사용자를 구분하기위한 고유아이디입니다.
@@ -349,11 +339,11 @@ const CreateUserEmail = () => {
       <Box>
         <Button
           fullWidth
-          size="small"
           variant="outlined"
           onClick={onEmailCreate}
+          sx={{ borderRadius: "10rem" }}
         >
-          계정생성
+          계정생성하기
         </Button>
       </Box>
     </Box>

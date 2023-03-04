@@ -110,7 +110,7 @@ function CreateUser({ setIsLoggedIn }) {
       >
         <Box
           sx={{
-            width: { xs: "100%", md: "20vw" },
+            width: { xs: "90%", md: "20vw" },
             padding: "1rem",
             fontSize: "0.9rem",
           }}
