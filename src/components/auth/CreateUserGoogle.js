@@ -18,14 +18,25 @@ import { auth, db } from "fbase";
 import { setDoc, doc } from "firebase/firestore";
 import {
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   updateProfile,
 } from "firebase/auth";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 
-const CreateUserGoogle = ({ setIsLoggedIn }) => {
-  const navigate = useNavigate();
+const CreateUserGoogle = ({ isLoggedIn }) => {
+  let navigate = useNavigate();
+  const match = useMatch("/register");
+
+  // 리디렉션 정보저장
+  useEffect(() => {
+    if (Boolean(match) && isLoggedIn) {
+      const retrievedObj = JSON.parse(sessionStorage.getItem("accountObj"));
+      console.log("retrievedObj", retrievedObj);
+      redirectSaveProfile(retrievedObj);
+    }
+  }, [match, isLoggedIn]);
 
   const [accountObj, setAccountObj] = useState({
     name: "",
@@ -69,15 +80,15 @@ const CreateUserGoogle = ({ setIsLoggedIn }) => {
   };
 
   // 프로필정보 저장
-  const onSaveProfile = async (user) => {
+  const onSaveProfile = async (user, retrievedObj) => {
     const newProfileObj = {
-      activeSemester: accountObj.activeSemester,
+      activeSemester: retrievedObj.activeSemester,
       attachmentUrl: "",
-      entranceUniv: accountObj.entranceUniv,
+      entranceUniv: retrievedObj.entranceUniv,
       email: user.email,
       forecastLog: {},
-      name: accountObj.name,
-      spaceName: "@" + accountObj.spaceName,
+      name: retrievedObj.name,
+      spaceName: "@" + retrievedObj.spaceName,
       uid: user.uid,
     };
 
@@ -111,20 +122,24 @@ const CreateUserGoogle = ({ setIsLoggedIn }) => {
       return;
     }
 
+    sessionStorage.setItem("accountObj", JSON.stringify(accountObj));
+
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider)
+    await signInWithRedirect(auth, provider);
+  };
+
+  const redirectSaveProfile = (retrievedObj) => {
+    getRedirectResult(auth)
       .then((result) => {
         alert("새로운 계정이 생성되었습니다.");
-
-        // This gives you a Google Access Token. You can use it to access the Google API.
+        // This gives you a Google Access Token. You can use it to access Google APIs.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
+
         // The signed-in user info.
         const user = result.user;
-        onSaveProfile(user);
+        onSaveProfile(user, retrievedObj);
         alert("프로필 정보가 저장되었습니다.");
-        console.log(credential, token, user);
-        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((error) => {
@@ -141,93 +156,94 @@ const CreateUserGoogle = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <Box>
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <Alert severity="info">
-          구글 계정을 이용한 소셜 회원가입은 반드시 컴퓨터 환경에서만
-          진행해주십시오. 이는 회원가입 과정에서 팝업창을 이용하기 때문입니다.
-          회원가입 후 로그인을 할 때는 모바일 환경에서도 변함없이
-          사용가능합니다.
-        </Alert>
-      </Box>
+    <>
+      <Box>
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <Alert severity="info">
+            User ID란 사용자를 구분하기위한 고유아이디입니다.
+          </Alert>
+        </Box>
 
-      <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
-        기본정보
-      </Box>
+        <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
+          기본정보
+        </Box>
 
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <TextField
-          fullWidth
-          label="이름"
-          variant="outlined"
-          size="small"
-          name="name"
-          value={accountObj.name}
-          onChange={onChange}
-        />
-      </Box>
-
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <TextField
-          fullWidth
-          name="entranceUniv"
-          label="학번"
-          variant="outlined"
-          size="small"
-          placeholder={currentYear}
-          value={accountObj.entranceUniv}
-          onChange={onChange}
-        />
-      </Box>
-      <Box sx={{ marginBottom: "1rem" }}>
-        <FormControl fullWidth size="small">
-          <InputLabel>활동학기</InputLabel>
-          <Select
-            multiple
-            name="activeSemester"
-            value={accountObj.activeSemester}
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            label="이름"
+            variant="outlined"
+            size="small"
+            name="name"
+            value={accountObj.name}
             onChange={onChange}
-            input={<OutlinedInput label="활동학기" />}
-            renderValue={(selected) => selected.join(", ")}
-          >
-            {years.map((year) => (
-              <MenuItem key={year} value={year}>
-                <Checkbox
-                  checked={accountObj.activeSemester.indexOf(year) > -1}
-                />
-                <ListItemText primary={year} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <Box sx={{ marginBottom: "2rem" }}>
-        <TextField
+          />
+        </Box>
+
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            name="entranceUniv"
+            label="학번"
+            variant="outlined"
+            size="small"
+            placeholder={currentYear}
+            value={accountObj.entranceUniv}
+            onChange={onChange}
+          />
+        </Box>
+        <Box sx={{ marginBottom: "1rem" }}>
+          <FormControl fullWidth size="small">
+            <InputLabel>활동학기</InputLabel>
+            <Select
+              multiple
+              name="activeSemester"
+              value={accountObj.activeSemester}
+              onChange={onChange}
+              input={<OutlinedInput label="활동학기" />}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  <Checkbox
+                    checked={accountObj.activeSemester.indexOf(year) > -1}
+                  />
+                  <ListItemText primary={year} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Box sx={{ marginBottom: "2rem" }}>
+          <TextField
+            fullWidth
+            label="User ID"
+            variant="outlined"
+            size="small"
+            name="spaceName"
+            value={accountObj.spaceName}
+            onChange={onChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">@</InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
+          소셜 회원가입
+        </Box>
+        <Button
           fullWidth
-          label="User ID"
           variant="outlined"
-          size="small"
-          name="spaceName"
-          value={accountObj.spaceName}
-          onChange={onChange}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">@</InputAdornment>,
-          }}
-        />
+          onClick={onGoogleCreate}
+          sx={{ borderRadius: "10rem" }}
+          startIcon={<GoogleIcon />}
+        >
+          구글로 계정생성하기
+        </Button>
       </Box>
-      <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
-        소셜 회원가입
-      </Box>
-      <Button
-        fullWidth
-        variant="outlined"
-        onClick={onGoogleCreate}
-        sx={{ borderRadius: "10rem" }}
-        startIcon={<GoogleIcon />}
-      >
-        구글로 계정생성하기
-      </Button>
-    </Box>
+    </>
   );
 };
 

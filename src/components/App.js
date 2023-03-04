@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import { startFirebaseApp, auth } from "fbase";
 import { onAuthStateChanged } from "firebase/auth";
+import Box from "@mui/material/Box";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,11 +24,15 @@ function App() {
 
   return (
     <>
-      <Layout
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        userObj={userObj}
-      />
+      {init ? (
+        <Layout
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          userObj={userObj}
+        />
+      ) : (
+        <Box>initializing....</Box>
+      )}
     </>
   );
 }

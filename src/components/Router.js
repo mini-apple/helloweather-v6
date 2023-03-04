@@ -17,21 +17,14 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
       <Routes>
         <Route
           path="/"
-          element={
-            isLoggedIn ? (
-              <AfterLoginHome />
-            ) : (
-              <BeforeLoginHome
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-                userObj={userObj}
-              />
-            )
-          }
+          element={isLoggedIn ? <AfterLoginHome /> : <BeforeLoginHome />}
         />
 
         <Route path="/login" element={<LoginUser isLoggedIn={isLoggedIn} />} />
-        <Route path="/register" element={<CreateUser />} />
+        <Route
+          path="/register"
+          element={<CreateUser isLoggedIn={isLoggedIn} />}
+        />
 
         <Route path="/profile" element={<OnlineProfile />} />
         <Route path="/member" element={<OnlineMember />} />

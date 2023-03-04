@@ -13,14 +13,14 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import GoogleIcon from "@mui/icons-material/Google";
 
-function CreateUser({ setIsLoggedIn }) {
+function CreateUser({ isLoggedIn }) {
   let navigate = useNavigate();
 
-  // true: email-password, false: google
+  // true: google, false: email-password
   const [registMode, setRegistMode] = useState(true);
 
   // popover
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -69,25 +69,25 @@ function CreateUser({ setIsLoggedIn }) {
               <ButtonGroup fullWidth size="small">
                 <Button
                   onClick={() => setRegistMode(true)}
-                  color="success"
-                  startIcon={<MailOutlineIcon />}
-                >
-                  이메일 회원가입
-                </Button>
-                <Button
-                  onClick={() => setRegistMode(false)}
                   color="primary"
                   startIcon={<GoogleIcon />}
                 >
                   구글 회원가입
                 </Button>
+                <Button
+                  onClick={() => setRegistMode(false)}
+                  color="success"
+                  startIcon={<MailOutlineIcon />}
+                >
+                  이메일 회원가입
+                </Button>
               </ButtonGroup>
             </Box>
 
             {registMode ? (
-              <CreateUserEmail />
+              <CreateUserGoogle isLoggedIn={isLoggedIn} />
             ) : (
-              <CreateUserGoogle setIsLoggedIn={setIsLoggedIn} />
+              <CreateUserEmail />
             )}
           </Box>
         </Box>

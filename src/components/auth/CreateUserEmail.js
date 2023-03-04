@@ -22,7 +22,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const CreateUserEmail = () => {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const [accountObj, setAccountObj] = useState({
     name: "",
@@ -173,180 +173,184 @@ const CreateUserEmail = () => {
   };
 
   return (
-    <Box>
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <Alert severity="info">
-          User ID란 사용자를 구분하기위한 고유아이디입니다.
-        </Alert>
-      </Box>
-      <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
-        기본정보
-      </Box>
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <TextField
-          fullWidth
-          label="이름"
-          variant="outlined"
-          size="small"
-          name="name"
-          value={accountObj.name}
-          onChange={onChange}
-        />
-      </Box>
-
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <TextField
-          fullWidth
-          name="entranceUniv"
-          label="학번"
-          variant="outlined"
-          size="small"
-          placeholder={currentYear}
-          value={accountObj.entranceUniv}
-          onChange={onChange}
-        />
-      </Box>
-      <Box sx={{ marginBottom: "1rem" }}>
-        <FormControl fullWidth size="small">
-          <InputLabel>활동학기</InputLabel>
-          <Select
-            multiple
-            name="activeSemester"
-            value={accountObj.activeSemester}
-            onChange={onChange}
-            input={<OutlinedInput label="활동학기" />}
-            renderValue={(selected) => selected.join(", ")}
-          >
-            {years.map((year) => (
-              <MenuItem key={year} value={year}>
-                <Checkbox
-                  checked={accountObj.activeSemester.indexOf(year) > -1}
-                />
-                <ListItemText primary={year} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <Box sx={{ marginBottom: "2rem" }}>
-        <TextField
-          fullWidth
-          label="User ID"
-          variant="outlined"
-          size="small"
-          name="spaceName"
-          value={accountObj.spaceName}
-          onChange={onChange}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">@</InputAdornment>,
-          }}
-        />
-      </Box>
-      <Box sx={{ textAlign: "center", margin: "1rem 0rem" }}>
-        이메일/비밀번호
-      </Box>
-
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <TextField
-          fullWidth
-          name="email"
-          label="이메일"
-          variant="outlined"
-          size="small"
-          value={accountObj.email}
-          onChange={onChange}
-        />
-      </Box>
-
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <FormControl fullWidth size="small" variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
-            비밀번호
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
-            label="비밀번호"
-            name="password"
-            value={accountObj.password}
-            onChange={onChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword((show) => !show)}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-      </Box>
-
-      <Box sx={{ marginBottom: "0.8rem" }}>
-        <FormControl fullWidth size="small" variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
-            비밀번호 확인
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
-            label="비밀번호 확인"
-            name="confirmPassword"
-            value={accountObj.confirmPassword}
-            onChange={onChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword((show) => !show)}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-      </Box>
-
-      {errorInfo.validEmail ? (
+    <>
+      <Box>
         <Box sx={{ marginBottom: "0.8rem" }}>
-          <Alert severity="success">올바른 이메일 형식.</Alert>
-        </Box>
-      ) : (
-        <Box sx={{ marginBottom: "0.8rem" }}>
-          <Alert severity="error">올바르지 않은 이메일 형식입니다.</Alert>
-        </Box>
-      )}
-
-      {errorInfo.validPassWord ? (
-        <Box sx={{ marginBottom: "0.8rem" }}>
-          <Alert severity="success">올바른 비밀번호 형식.</Alert>
-        </Box>
-      ) : (
-        <Box sx={{ marginBottom: "0.8rem" }}>
-          <Alert severity="error">
-            비밀번호에는 영어, 숫자, 특수문자가 포함되어야합니다.(8자리 이상)
+          <Alert severity="info">
+            User ID란 사용자를 구분하기위한 고유아이디입니다.
           </Alert>
         </Box>
-      )}
+        <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
+          기본정보
+        </Box>
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            label="이름"
+            variant="outlined"
+            size="small"
+            name="name"
+            value={accountObj.name}
+            onChange={onChange}
+          />
+        </Box>
 
-      <Box>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={onEmailCreate}
-          sx={{ borderRadius: "10rem" }}
-        >
-          계정생성하기
-        </Button>
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            name="entranceUniv"
+            label="학번"
+            variant="outlined"
+            size="small"
+            placeholder={currentYear}
+            value={accountObj.entranceUniv}
+            onChange={onChange}
+          />
+        </Box>
+        <Box sx={{ marginBottom: "1rem" }}>
+          <FormControl fullWidth size="small">
+            <InputLabel>활동학기</InputLabel>
+            <Select
+              multiple
+              name="activeSemester"
+              value={accountObj.activeSemester}
+              onChange={onChange}
+              input={<OutlinedInput label="활동학기" />}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  <Checkbox
+                    checked={accountObj.activeSemester.indexOf(year) > -1}
+                  />
+                  <ListItemText primary={year} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Box sx={{ marginBottom: "2rem" }}>
+          <TextField
+            fullWidth
+            label="User ID"
+            variant="outlined"
+            size="small"
+            name="spaceName"
+            value={accountObj.spaceName}
+            onChange={onChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">@</InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        <Box sx={{ textAlign: "center", margin: "1rem 0rem" }}>
+          이메일/비밀번호
+        </Box>
+
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            name="email"
+            label="이메일"
+            variant="outlined"
+            size="small"
+            value={accountObj.email}
+            onChange={onChange}
+          />
+        </Box>
+
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <FormControl fullWidth size="small" variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              비밀번호
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              label="비밀번호"
+              name="password"
+              value={accountObj.password}
+              onChange={onChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword((show) => !show)}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </Box>
+
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <FormControl fullWidth size="small" variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              비밀번호 확인
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              label="비밀번호 확인"
+              name="confirmPassword"
+              value={accountObj.confirmPassword}
+              onChange={onChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword((show) => !show)}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </Box>
+
+        {errorInfo.validEmail ? (
+          <Box sx={{ marginBottom: "0.8rem" }}>
+            <Alert severity="success">올바른 이메일 형식.</Alert>
+          </Box>
+        ) : (
+          <Box sx={{ marginBottom: "0.8rem" }}>
+            <Alert severity="error">올바르지 않은 이메일 형식입니다.</Alert>
+          </Box>
+        )}
+
+        {errorInfo.validPassWord ? (
+          <Box sx={{ marginBottom: "0.8rem" }}>
+            <Alert severity="success">올바른 비밀번호 형식.</Alert>
+          </Box>
+        ) : (
+          <Box sx={{ marginBottom: "0.8rem" }}>
+            <Alert severity="error">
+              비밀번호에는 영어, 숫자, 특수문자가 포함되어야합니다.(8자리 이상)
+            </Alert>
+          </Box>
+        )}
+
+        <Box>
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={onEmailCreate}
+            sx={{ borderRadius: "10rem" }}
+          >
+            계정생성하기
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
