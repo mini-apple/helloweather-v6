@@ -20,7 +20,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import GoogleIcon from "@mui/icons-material/Google";
 
-function LoginUser({ isLoggedIn }) {
+function LoginUser({ isLoggedIn, setIsLoggedIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -47,6 +47,7 @@ function LoginUser({ isLoggedIn }) {
   const onEmailLogin = async () => {
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {
+        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((error) => {

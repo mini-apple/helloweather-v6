@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import { startFirebaseApp, auth } from "fbase";
 import { onAuthStateChanged } from "firebase/auth";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,12 +12,14 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log("user: ", Boolean(user), user);
       if (user) {
-        setUserObj(user);
+        setUserObj({
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
         setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
       }
       setInit(true);
     });
@@ -24,15 +27,11 @@ function App() {
 
   return (
     <>
-      {init ? (
-        <Layout
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          userObj={userObj}
-        />
-      ) : (
-        <Box>initializing....</Box>
-      )}
+      <Layout
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        userObj={userObj}
+      />
     </>
   );
 }

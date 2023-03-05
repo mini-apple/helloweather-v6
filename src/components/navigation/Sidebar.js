@@ -1,22 +1,22 @@
+import React, { useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
+import Switch from "@mui/material/Switch";
+
 import { AccountBox, Home, ModeNight } from "@mui/icons-material";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Switch,
-} from "@mui/material";
-import React, { useEffect } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const Sidebar = ({ themeMode, setThemeMode }) => {
   // darkmode
