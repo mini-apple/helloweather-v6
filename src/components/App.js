@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import { startFirebaseApp, auth } from "fbase";
 import { onAuthStateChanged } from "firebase/auth";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

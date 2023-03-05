@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AfterLoginHome from "components/home/AfterLoginHome";
-import BeforeLoginHome from "components/home/BeforeLoginHome";
+import Homepage from "components/home/Homepage";
 import OnlineProfile from "routes/OnlineProfile";
 import OnlineMember from "routes/OnlineMember";
 import OnlineForecast from "routes/OnlineForecast";
@@ -15,7 +14,7 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BeforeLoginHome />} />
+        <Route path="/" element={<Homepage isLoggedIn={isLoggedIn} />} />
 
         <Route
           path="/login"

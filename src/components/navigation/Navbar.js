@@ -16,7 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "./Sidebar";
 
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "fbase";
 
 const Navbar = ({ themeMode, setThemeMode, isLoggedIn, userObj }) => {
