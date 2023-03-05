@@ -52,7 +52,7 @@ const onlineExplains = [
   },
 ];
 
-const BeforeLoginHome = () => {
+const Homepage = () => {
   let navigate = useNavigate();
 
   const onLoginPage = () => {
@@ -250,4 +250,4 @@ const BeforeLoginHome = () => {
   );
 };
 
-export default BeforeLoginHome;
+export default Homepage;

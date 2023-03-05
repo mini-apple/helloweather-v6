@@ -1,8 +1,12 @@
 import React from "react";
-import Box from "@mui/material/Box";
+import ProfilePage from "components/online/profile/ProfilePage";
 
-const OnlineProfile = () => {
-  return <Box>OnlineProfile</Box>;
+const OnlineProfile = ({ userObj }) => {
+  return (
+    <>
+      <ProfilePage userObj={userObj} />
+    </>
+  );
 };
 
 export default OnlineProfile;

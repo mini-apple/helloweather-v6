@@ -7,35 +7,37 @@ import OnlineForecast from "routes/OnlineForecast";
 import OfflineCalc from "routes/OfflineCalc";
 import OfflineString from "routes/OfflineString";
 import OfflineCriteria from "routes/OfflineCriteria";
-import CreateUser from "./auth/CreateUser";
-import LoginUser from "./auth/LoginUser";
+import CreateUser from "components//auth/CreateUser";
+import LoginUser from "components/auth/LoginUser";
 
 const Router = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Homepage isLoggedIn={isLoggedIn} />} />
+    <Routes>
+      <Route path="/" element={<Homepage />} />
 
-        <Route
-          path="/login"
-          element={
-            <LoginUser isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-          }
-        />
-        <Route
-          path="/register"
-          element={<CreateUser isLoggedIn={isLoggedIn} />}
-        />
+      <Route path="/login" element={<LoginUser isLoggedIn={isLoggedIn} />} />
+      <Route
+        path="/register"
+        element={<CreateUser isLoggedIn={isLoggedIn} />}
+      />
 
-        <Route path="/profile" element={<OnlineProfile />} />
-        <Route path="/member" element={<OnlineMember />} />
-        <Route path="/forecast" element={<OnlineForecast />} />
+      <Route
+        path="/profile"
+        element={
+          isLoggedIn ? (
+            <OnlineProfile isLoggedIn={isLoggedIn} userObj={userObj} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
+      <Route path="/member" element={<OnlineMember />} />
+      <Route path="/forecast" element={<OnlineForecast />} />
 
-        <Route path="/calculator" element={<OfflineCalc />} />
-        <Route path="/string" element={<OfflineString />} />
-        <Route path="/criteria" element={<OfflineCriteria />} />
-      </Routes>
-    </BrowserRouter>
+      <Route path="/calculator" element={<OfflineCalc />} />
+      <Route path="/string" element={<OfflineString />} />
+      <Route path="/criteria" element={<OfflineCriteria />} />
+    </Routes>
   );
 };
 
