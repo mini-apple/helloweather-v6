@@ -32,7 +32,7 @@ const Navbar = ({ themeMode, setThemeMode, isLoggedIn, userObj }) => {
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <IconButton
           onClick={() => setIsDrawerOpen(true)}
-          sx={{ display: { xs: "block", sm: "none" } }}
+          sx={{ display: { xs: "block", md: "none" } }}
         >
           <MenuIcon />
         </IconButton>

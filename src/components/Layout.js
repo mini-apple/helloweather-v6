@@ -23,6 +23,23 @@ const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
       },
     },
   });
+
+  //학기정보
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const semesters = [];
+  if (currentMonth <= 6) {
+    semesters.push(currentYear + "-1학기");
+  } else if (7 <= currentMonth && currentMonth <= 12) {
+    semesters.push(currentYear + "-2학기");
+    semesters.push(currentYear + "-1학기");
+  }
+  for (let i = currentYear - 1; i >= 2009; i--) {
+    for (let j = 2; j >= 1; j--) {
+      semesters.push(i + "-" + j + "학기");
+    }
+  }
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Box bgcolor={"background.default"} color={"text.secondary"}>
@@ -55,6 +72,7 @@ const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
                     isLoggedIn={isLoggedIn}
                     setIsLoggedIn={setIsLoggedIn}
                     userObj={userObj}
+                    semesters={semesters}
                   />
                 ) : (
                   <Paper

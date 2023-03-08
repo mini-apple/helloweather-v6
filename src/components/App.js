@@ -18,10 +18,11 @@ function App() {
           displayName: user.displayName,
           photoURL: user.photoURL,
           uid: user.uid,
+          email: user.email,
+          provider: user.providerData[0].providerId,
           updateProfile: (args) => user.updateProfile(args),
         });
         setIsLoggedIn(true);
-        console.log("login: ", isLoggedIn);
       }
       setInit(true);
     });

@@ -8,6 +8,8 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+
 import Fade from "@mui/material/Fade";
 
 import "./Homepage.css";
@@ -48,7 +50,7 @@ const onlineExplains = [
   {
     label: "결과 확인",
     description: `정상적으로 채점이 완료되었다면 '마감'이라고 표시됩니다. 각자의 채점결과를 확인하면서
-                  멤버들과 정답을 비교해봅시다.`,
+                  멤버들과 정답을 비교해봅시다!`,
   },
 ];
 
@@ -175,9 +177,12 @@ const Homepage = () => {
               </Stepper>
               {activeStep === offlineExplains.length && (
                 <Paper elevation={0} sx={{ p: 3, borderRadius: "1rem" }}>
-                  <Typography>
-                    All steps completed - You&apos;re ready!
-                  </Typography>
+                  <Box>
+                    오프라인 채점방식을 알아봤습니다.{" "}
+                    <Link href="/calculator" underline="none" color="inherit">
+                      오프라인 채점하러 가기
+                    </Link>
+                  </Box>
                   <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
                     다시보기
                   </Button>
@@ -234,9 +239,12 @@ const Homepage = () => {
               </Stepper>
               {activeOnlineStep === onlineExplains.length && (
                 <Paper elevation={0} sx={{ p: 3, borderRadius: "1rem" }}>
-                  <Typography>
-                    All steps completed - You&apos;re ready!
-                  </Typography>
+                  <Box>
+                    온라인 채점방식을 알아봤습니다.{" "}
+                    <Link href="/forecast" underline="none" color="inherit">
+                      온라인 채점하러 가기
+                    </Link>
+                  </Box>
                   <Button onClick={handleOnlineReset} sx={{ mt: 1, mr: 1 }}>
                     다시보기
                   </Button>

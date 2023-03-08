@@ -25,41 +25,30 @@ import {
 
 import { useNavigate, useMatch } from "react-router-dom";
 
-const CreateUserGoogle = ({ isLoggedIn }) => {
+const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
   let navigate = useNavigate();
   const match = useMatch("/register");
+
+  const [activeSemester, setActiveSemester] = useState([]);
+  const [accountObj, setAccountObj] = useState({
+    name: "",
+    spaceName: "",
+    entranceUniv: "",
+    activityDetails: [
+      {
+        semester: "",
+        position: "",
+      },
+    ],
+  });
 
   // 리디렉션 정보저장
   useEffect(() => {
     if (Boolean(match) && isLoggedIn) {
       const retrievedObj = JSON.parse(sessionStorage.getItem("accountObj"));
-      console.log("retrievedObj", retrievedObj);
       redirectSaveProfile(retrievedObj);
     }
   }, [match, isLoggedIn]);
-
-  const [accountObj, setAccountObj] = useState({
-    name: "",
-    spaceName: "",
-    entranceUniv: "",
-    activeSemester: [],
-  });
-
-  // 학기정보
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
-  const years = [];
-  if (currentMonth <= 6) {
-    years.push(currentYear + "-1학기");
-  } else if (7 <= currentMonth && currentMonth <= 12) {
-    years.push(currentYear + "-2학기");
-    years.push(currentYear + "-1학기");
-  }
-  for (let i = currentYear - 1; i >= 2009; i--) {
-    for (let j = 2; j >= 1; j--) {
-      years.push(i + "-" + j + "학기");
-    }
-  }
 
   const onChange = (event) => {
     const {
@@ -72,22 +61,26 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
     } else if (name === "entranceUniv") {
       setAccountObj({ ...accountObj, entranceUniv: value });
     } else if (name === "activeSemester") {
-      setAccountObj({
-        ...accountObj,
-        activeSemester: typeof value === "string" ? value.split(",") : value,
-      });
+      const sortList = typeof value === "string" ? value.split(",") : value;
+      const activityList = [];
+      setActiveSemester(sortList.sort());
+      for (let i = 0; i < sortList.length; i++) {
+        activityList.push({ index: i, semester: sortList[i], position: "" });
+      }
+      setAccountObj({ ...accountObj, activityDetails: activityList });
     }
   };
 
   // 프로필정보 저장
   const onSaveProfile = async (user, retrievedObj) => {
     const newProfileObj = {
-      activeSemester: retrievedObj.activeSemester,
-      attachmentUrl: "",
+      activityDetails: retrievedObj.activityDetails,
       entranceUniv: retrievedObj.entranceUniv,
       email: user.email,
-      forecastLog: {},
+      forecastLog: [],
       name: retrievedObj.name,
+      photoURL: user.photoURL,
+      providerId: user.providerData[0].providerId,
       spaceName: "@" + retrievedObj.spaceName,
       uid: user.uid,
     };
@@ -115,7 +108,7 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
     if (
       accountObj.name === "" ||
       accountObj.entranceUniv === "" ||
-      accountObj.activeSemester.length === 0 ||
+      accountObj.activityDetails.length === 0 ||
       accountObj.spaceName === ""
     ) {
       alert("모든 정보를 입력해주세요!");
@@ -139,7 +132,6 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
         // The signed-in user info.
         const user = result.user;
         onSaveProfile(user, retrievedObj);
-        alert("프로필 정보가 저장되었습니다.");
         navigate("/");
       })
       .catch((error) => {
@@ -151,7 +143,7 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
-        console.log(errorCode, errorMessage, email, credential);
+        alert(errorCode, errorMessage, email, credential);
       });
   };
 
@@ -160,7 +152,7 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
       <Box>
         <Box sx={{ marginBottom: "0.8rem" }}>
           <Alert severity="info">
-            User ID란 사용자를 구분하기위한 고유아이디입니다.
+            Space Name은 고유하고 짧은 계정 식별자로, '@' 기호로 시작합니다.
           </Alert>
         </Box>
 
@@ -187,7 +179,8 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
             label="학번"
             variant="outlined"
             size="small"
-            placeholder={currentYear}
+            type="number"
+            placeholder={new Date().getFullYear()}
             value={accountObj.entranceUniv}
             onChange={onChange}
           />
@@ -198,17 +191,15 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
             <Select
               multiple
               name="activeSemester"
-              value={accountObj.activeSemester}
+              value={activeSemester}
               onChange={onChange}
               input={<OutlinedInput label="활동학기" />}
               renderValue={(selected) => selected.join(", ")}
             >
-              {years.map((year) => (
-                <MenuItem key={year} value={year}>
-                  <Checkbox
-                    checked={accountObj.activeSemester.indexOf(year) > -1}
-                  />
-                  <ListItemText primary={year} />
+              {semesters.map((semester) => (
+                <MenuItem key={semester} value={semester}>
+                  <Checkbox checked={activeSemester.indexOf(semester) > -1} />
+                  <ListItemText primary={semester} />
                 </MenuItem>
               ))}
             </Select>
@@ -217,7 +208,7 @@ const CreateUserGoogle = ({ isLoggedIn }) => {
         <Box sx={{ marginBottom: "2rem" }}>
           <TextField
             fullWidth
-            label="User ID"
+            label="Space Name"
             variant="outlined"
             size="small"
             name="spaceName"

@@ -13,7 +13,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import GoogleIcon from "@mui/icons-material/Google";
 
-function CreateUser({ isLoggedIn }) {
+function CreateUser({ isLoggedIn, semesters }) {
   let navigate = useNavigate();
 
   // true: google, false: email-password
@@ -85,9 +85,9 @@ function CreateUser({ isLoggedIn }) {
             </Box>
 
             {registMode ? (
-              <CreateUserGoogle isLoggedIn={isLoggedIn} />
+              <CreateUserGoogle isLoggedIn={isLoggedIn} semesters={semesters} />
             ) : (
-              <CreateUserEmail />
+              <CreateUserEmail semesters={semesters} />
             )}
           </Box>
         </Box>

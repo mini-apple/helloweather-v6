@@ -21,14 +21,21 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 import { useNavigate } from "react-router-dom";
 
-const CreateUserEmail = () => {
+const CreateUserEmail = ({ semesters }) => {
   let navigate = useNavigate();
 
+  const [activeSemester, setActiveSemester] = useState([]);
   const [accountObj, setAccountObj] = useState({
     name: "",
     spaceName: "",
     entranceUniv: "",
-    activeSemester: [],
+    activityDetails: [
+      {
+        index: "",
+        semester: "",
+        position: "",
+      },
+    ],
     email: "",
     password: "",
     confirmPassword: "",
@@ -46,22 +53,6 @@ const CreateUserEmail = () => {
     validPassWord: false,
   });
 
-  // 학기정보
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
-  const years = [];
-  if (currentMonth <= 6) {
-    years.push(currentYear + "-1학기");
-  } else if (7 <= currentMonth && currentMonth <= 12) {
-    years.push(currentYear + "-2학기");
-    years.push(currentYear + "-1학기");
-  }
-  for (let i = currentYear - 1; i >= 2009; i--) {
-    for (let j = 2; j >= 1; j--) {
-      years.push(i + "-" + j + "학기");
-    }
-  }
-
   const onChange = (event) => {
     const {
       target: { name, value },
@@ -73,10 +64,14 @@ const CreateUserEmail = () => {
     } else if (name === "entranceUniv") {
       setAccountObj({ ...accountObj, entranceUniv: value });
     } else if (name === "activeSemester") {
-      setAccountObj({
-        ...accountObj,
-        activeSemester: typeof value === "string" ? value.split(",") : value,
-      });
+      const sortList = typeof value === "string" ? value.split(",") : value;
+      setActiveSemester(sortList.sort());
+
+      const activityList = [];
+      for (let i = 0; i < sortList.length; i++) {
+        activityList.push({ index: i, semester: sortList[i], position: "" });
+      }
+      setAccountObj({ ...accountObj, activityDetails: activityList });
     } else if (name === "email") {
       const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
       setAccountObj({ ...accountObj, email: value });
@@ -97,12 +92,13 @@ const CreateUserEmail = () => {
   // 프로필정보 저장
   const onSaveProfile = async (user) => {
     const newProfileObj = {
-      activeSemester: accountObj.activeSemester,
-      attachmentUrl: "",
+      activityDetails: accountObj.activityDetails,
       entranceUniv: accountObj.entranceUniv,
       email: user.email,
-      forecastLog: {},
+      forecastLog: [],
       name: accountObj.name,
+      photoURL: "",
+      providerId: user.providerData[0].providerId,
       spaceName: "@" + accountObj.spaceName,
       uid: user.uid,
     };
@@ -119,10 +115,9 @@ const CreateUserEmail = () => {
           displayName: newProfileObj.name,
         });
       }
-      alert("프로필이 저장되었습니다!");
+      alert("프로필이 저장되었습니다.");
     } catch (e) {
-      console.error("Error adding document: ", e);
-      alert("프로필 변경에 실패했습니다!");
+      alert(`프로필 저장에 실패했습니다.\nError adding document: ${e}`);
     }
   };
 
@@ -130,7 +125,7 @@ const CreateUserEmail = () => {
     if (
       accountObj.name === "" ||
       accountObj.entranceUniv === "" ||
-      accountObj.activeSemester.length === 0 ||
+      accountObj.activityDetails.length === 0 ||
       accountObj.spaceName === "" ||
       accountObj.email === "" ||
       accountObj.password === "" ||
@@ -177,7 +172,7 @@ const CreateUserEmail = () => {
       <Box>
         <Box sx={{ marginBottom: "0.8rem" }}>
           <Alert severity="info">
-            User ID란 사용자를 구분하기위한 고유아이디입니다.
+            Space Name은 고유하고 짧은 계정 식별자로, '@' 기호로 시작합니다.
           </Alert>
         </Box>
         <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
@@ -202,37 +197,38 @@ const CreateUserEmail = () => {
             label="학번"
             variant="outlined"
             size="small"
-            placeholder={currentYear}
+            type="number"
+            placeholder={new Date().getFullYear()}
             value={accountObj.entranceUniv}
             onChange={onChange}
           />
         </Box>
+
         <Box sx={{ marginBottom: "1rem" }}>
           <FormControl fullWidth size="small">
             <InputLabel>활동학기</InputLabel>
             <Select
               multiple
               name="activeSemester"
-              value={accountObj.activeSemester}
+              value={activeSemester}
               onChange={onChange}
               input={<OutlinedInput label="활동학기" />}
               renderValue={(selected) => selected.join(", ")}
             >
-              {years.map((year) => (
-                <MenuItem key={year} value={year}>
-                  <Checkbox
-                    checked={accountObj.activeSemester.indexOf(year) > -1}
-                  />
-                  <ListItemText primary={year} />
+              {semesters.map((semester) => (
+                <MenuItem key={semester} value={semester}>
+                  <Checkbox checked={activeSemester.indexOf(semester) > -1} />
+                  <ListItemText primary={semester} />
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
         </Box>
+
         <Box sx={{ marginBottom: "2rem" }}>
           <TextField
             fullWidth
-            label="User ID"
+            label="Space Name"
             variant="outlined"
             size="small"
             name="spaceName"
@@ -245,6 +241,7 @@ const CreateUserEmail = () => {
             }}
           />
         </Box>
+
         <Box sx={{ textAlign: "center", margin: "1rem 0rem" }}>
           이메일/비밀번호
         </Box>

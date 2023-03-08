@@ -1,10 +1,10 @@
 import React from "react";
 import ProfilePage from "components/online/profile/ProfilePage";
 
-const OnlineProfile = ({ userObj }) => {
+const OnlineProfile = ({ userObj, semesters }) => {
   return (
     <>
-      <ProfilePage userObj={userObj} />
+      <ProfilePage userObj={userObj} semesters={semesters} />
     </>
   );
 };

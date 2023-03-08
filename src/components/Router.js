@@ -10,7 +10,7 @@ import OfflineCriteria from "routes/OfflineCriteria";
 import CreateUser from "components//auth/CreateUser";
 import LoginUser from "components/auth/LoginUser";
 
-const Router = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
+const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />
@@ -18,14 +18,14 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj }) => {
       <Route path="/login" element={<LoginUser isLoggedIn={isLoggedIn} />} />
       <Route
         path="/register"
-        element={<CreateUser isLoggedIn={isLoggedIn} />}
+        element={<CreateUser isLoggedIn={isLoggedIn} semesters={semesters} />}
       />
 
       <Route
         path="/profile"
         element={
           isLoggedIn ? (
-            <OnlineProfile isLoggedIn={isLoggedIn} userObj={userObj} />
+            <OnlineProfile userObj={userObj} semesters={semesters} />
           ) : (
             <LoginUser isLoggedIn={isLoggedIn} />
           )
