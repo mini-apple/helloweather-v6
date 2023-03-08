@@ -9,6 +9,8 @@ import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 import Fade from "@mui/material/Fade";
 
@@ -57,6 +59,8 @@ const onlineExplains = [
 const Homepage = () => {
   let navigate = useNavigate();
 
+  const [homepageAlert, setHomepageAlert] = useState(true);
+
   const onLoginPage = () => {
     navigate("/forecast");
   };
@@ -100,6 +104,30 @@ const Homepage = () => {
           borderRadius: { xs: "0rem", md: "1rem" },
         }}
       >
+        {homepageAlert && (
+          <Alert
+            severity="info"
+            onClose={() => {
+              setHomepageAlert(false);
+            }}
+          >
+            <AlertTitle>
+              <Box>헬로웨더 예보채점 사이트 개편안내</Box>
+            </AlertTitle>
+            <Box mt={3}>
+              2023 워크숍에서 말씀드린 홈페이지 변경사항을 간략히 안내드립니다.
+            </Box>
+            <Box mt={1}>
+              1. 기존 계산방법은 회원가입 없이도 동일하게 사용가능합니다.
+            </Box>
+            <Box>
+              2. 추가된 온라인 채점은 회원가입 후 이용이 가능합니다. 상황에 맞게
+              편한방법으로 사용하시기 바랍니다.
+            </Box>
+            <Box mt={1}>회원가입대상 : 헬로웨더 전, 현멤버</Box>
+            <Box mt={1}> 2023.03.11 ~ 2023.03.12 : 배포 및 테스트</Box>
+          </Alert>
+        )}
         <Box
           sx={{
             padding: { xs: "1", md: "5" },
