@@ -38,6 +38,7 @@ const ProfilePage = ({ userObj, semesters }) => {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [activeSemester, setActiveSemester] = useState([]);
   const [profile, setProfile] = useState({
+    activeSemester: [],
     activityDetails: [],
     entranceUniv: "",
     email: "",
@@ -50,6 +51,7 @@ const ProfilePage = ({ userObj, semesters }) => {
   });
 
   const [newProfile, setNewProfile] = useState({
+    activeSemester: [],
     activityDetails: [],
     entranceUniv: "",
     email: "",
@@ -204,7 +206,11 @@ const ProfilePage = ({ userObj, semesters }) => {
           position: "",
         });
       }
-      setNewProfile({ ...newProfile, activityDetails: activityList });
+      setNewProfile({
+        ...newProfile,
+        activityDetails: activityList,
+        activeSemester: semesterList,
+      });
     }
 
     // 직급 핸들링

@@ -34,6 +34,7 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
     name: "",
     spaceName: "",
     entranceUniv: "",
+    activeSemester: [],
     activityDetails: [
       {
         semester: "",
@@ -67,13 +68,18 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
       for (let i = 0; i < sortList.length; i++) {
         activityList.push({ index: i, semester: sortList[i], position: "" });
       }
-      setAccountObj({ ...accountObj, activityDetails: activityList });
+      setAccountObj({
+        ...accountObj,
+        activeSemester: sortList,
+        activityDetails: activityList,
+      });
     }
   };
 
   // 프로필정보 저장
   const onSaveProfile = async (user, retrievedObj) => {
     const newProfileObj = {
+      activeSemester: retrievedObj.activeSemester,
       activityDetails: retrievedObj.activityDetails,
       entranceUniv: retrievedObj.entranceUniv,
       email: user.email,

@@ -31,7 +31,16 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
           )
         }
       />
-      <Route path="/member" element={<OnlineMember />} />
+      <Route
+        path="/member"
+        element={
+          isLoggedIn ? (
+            <OnlineMember semesters={semesters} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
       <Route path="/forecast" element={<OnlineForecast />} />
 
       <Route path="/calculator" element={<OfflineCalc />} />

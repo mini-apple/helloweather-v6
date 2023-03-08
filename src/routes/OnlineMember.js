@@ -1,8 +1,12 @@
 import React from "react";
-import Box from "@mui/material/Box";
+import MemberPage from "components/online/member/MemberPage";
 
-const OnlineMember = () => {
-  return <Box>OnlineMember</Box>;
+const OnlineMember = ({ semesters }) => {
+  return (
+    <>
+      <MemberPage semesters={semesters} />
+    </>
+  );
 };
 
 export default OnlineMember;
