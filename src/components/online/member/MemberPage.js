@@ -10,13 +10,12 @@ import Select from "@mui/material/Select";
 import Divider from "@mui/material/Divider";
 
 import { db } from "fbase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import MemberCard from "./MemberCard";
-import { margin } from "@mui/system";
 
 const MemberPage = ({ semesters }) => {
-  const [selectYear, setSelectYear] = useState(semesters[0]);
-  const [titleYear, setTitleYear] = useState(semesters[0]);
+  const [selectSemester, setSelectSemester] = useState(semesters[0]);
+  const [titleSemester, setTitleSemester] = useState(semesters[0]);
   const [memberList, setMemberList] = useState([]);
 
   useEffect(() => {
@@ -27,28 +26,27 @@ const MemberPage = ({ semesters }) => {
     const {
       target: { value },
     } = event;
-    setSelectYear(value);
+    setSelectSemester(value);
   };
 
   const onGetMember = async () => {
     const list = [];
-    const selectYearRef = collection(db, "users");
+    const selectSemesterRef = collection(db, "users");
     const q = query(
-      selectYearRef,
-      where("activeSemester", "array-contains", selectYear)
+      selectSemesterRef,
+      where("activeSemester", "array-contains", selectSemester),
+      orderBy("entranceClub"),
+      orderBy("entranceUniv"),
+      orderBy("name")
     );
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       list.push(doc.data());
     });
-    console.log(list);
-    // 리더 총무 학술부장 학술부원 홍보부장 홍보부원 기획부장 기획부원 순으로 정렬
-    console.log(list);
 
     setMemberList(list);
-    setTitleYear(selectYear);
-    console.log("MemberList", memberList);
+    setTitleSemester(selectSemester);
   };
 
   return (
@@ -81,10 +79,10 @@ const MemberPage = ({ semesters }) => {
                 }}
               >
                 <FormControl fullWidth size="small">
-                  <InputLabel id="select-year">활동학기</InputLabel>
+                  <InputLabel id="select-Semester">활동학기</InputLabel>
                   <Select
-                    labelId="select-year"
-                    value={selectYear}
+                    labelId="select-Semester"
+                    value={selectSemester}
                     label="활동학기"
                     onChange={handleChange}
                   >
@@ -116,17 +114,24 @@ const MemberPage = ({ semesters }) => {
                 marginBottom: "2rem",
               }}
             >
-              {titleYear}
+              {titleSemester}
             </Box>
             <Box
               sx={{
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "center",
+                padding: { xs: "0rem", md: "1rem 5rem" },
+                border: { xs: "0px", md: "1px solid rgba(5, 5, 5, 10%)" },
+                borderRadius: "1rem",
               }}
             >
               {memberList.map((member) => (
-                <MemberCard member={member} semester={titleYear} />
+                <MemberCard
+                  key={member.uid}
+                  member={member}
+                  semester={titleSemester}
+                />
               ))}
             </Box>
           </Paper>

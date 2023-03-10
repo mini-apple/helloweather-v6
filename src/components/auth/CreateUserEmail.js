@@ -23,11 +23,13 @@ import { useNavigate } from "react-router-dom";
 
 const CreateUserEmail = ({ semesters }) => {
   let navigate = useNavigate();
+  const currentYear = String(new Date().getFullYear());
 
   const [activeSemester, setActiveSemester] = useState([]);
   const [accountObj, setAccountObj] = useState({
     name: "",
     spaceName: "",
+    entranceClub: "",
     entranceUniv: "",
     activeSemester: [],
     activityDetails: [
@@ -62,6 +64,8 @@ const CreateUserEmail = ({ semesters }) => {
       setAccountObj({ ...accountObj, name: value });
     } else if (name === "spaceName") {
       setAccountObj({ ...accountObj, spaceName: value });
+    } else if (name === "entranceClub") {
+      setAccountObj({ ...accountObj, entranceClub: value });
     } else if (name === "entranceUniv") {
       setAccountObj({ ...accountObj, entranceUniv: value });
     } else if (name === "activeSemester") {
@@ -99,6 +103,7 @@ const CreateUserEmail = ({ semesters }) => {
     const newProfileObj = {
       activeSemester: accountObj.activeSemester,
       activityDetails: accountObj.activityDetails,
+      entranceClub: accountObj.entranceClub,
       entranceUniv: accountObj.entranceUniv,
       email: user.email,
       forecastLog: [],
@@ -130,6 +135,7 @@ const CreateUserEmail = ({ semesters }) => {
   const onEmailCreate = async () => {
     if (
       accountObj.name === "" ||
+      accountObj.entranceClub === "" ||
       accountObj.entranceUniv === "" ||
       accountObj.activityDetails.length === 0 ||
       accountObj.spaceName === "" ||
@@ -204,8 +210,21 @@ const CreateUserEmail = ({ semesters }) => {
             variant="outlined"
             size="small"
             type="number"
-            placeholder={new Date().getFullYear()}
+            placeholder={currentYear}
             value={accountObj.entranceUniv}
+            onChange={onChange}
+          />
+        </Box>
+
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            name="entranceClub"
+            label="기수"
+            variant="outlined"
+            size="small"
+            type="number"
+            value={accountObj.entranceClub}
             onChange={onChange}
           />
         </Box>

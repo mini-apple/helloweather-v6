@@ -15,8 +15,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import Input from "@mui/material/Input";
 
 import { auth, db, storage } from "fbase";
 import {
@@ -31,7 +29,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { signOut, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { act } from "react-dom/test-utils";
 
 const ProfilePage = ({ userObj, semesters }) => {
   const navigate = useNavigate();
@@ -40,6 +37,7 @@ const ProfilePage = ({ userObj, semesters }) => {
   const [profile, setProfile] = useState({
     activeSemester: [],
     activityDetails: [],
+    entranceClub: "",
     entranceUniv: "",
     email: "",
     forecastLog: [],
@@ -53,6 +51,7 @@ const ProfilePage = ({ userObj, semesters }) => {
   const [newProfile, setNewProfile] = useState({
     activeSemester: [],
     activityDetails: [],
+    entranceClub: "",
     entranceUniv: "",
     email: "",
     forecastLog: [],
@@ -192,6 +191,8 @@ const ProfilePage = ({ userObj, semesters }) => {
       setNewProfile({ ...newProfile, name: value });
     } else if (name === "spaceName") {
       setNewProfile({ ...newProfile, spaceName: value });
+    } else if (name === "entranceClub") {
+      setNewProfile({ ...newProfile, entranceClub: value });
     } else if (name === "entranceUniv") {
       setNewProfile({ ...newProfile, entranceUniv: value });
     } else if (name === "activeSemester") {
@@ -261,7 +262,9 @@ const ProfilePage = ({ userObj, semesters }) => {
                 />
               </Box>
               <Box sx={{ width: { xs: "80%", md: "70%" } }}>
-                <Box sx={{ display: "flex", gap: "1rem" }}>
+                <Box
+                  sx={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}
+                >
                   <Box sx={{ fontSize: "1.3rem", fontWeight: "500" }}>
                     {profile.name}
                   </Box>
@@ -273,44 +276,36 @@ const ProfilePage = ({ userObj, semesters }) => {
                   </Box>
                 </Box>
                 <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: { xs: "7rem", md: "10rem" },
-                    }}
-                  >
+                  <Box>
                     <Box
-                      sx={{
-                        fontSize: "1rem",
-                        margin: "1rem 0rem",
-                      }}
+                      sx={{ display: "flex", gap: { xs: "3rem", md: "5rem" } }}
                     >
-                      <Box sx={{ fontSize: "0.9rem" }}>학번</Box>
-                      <Box>{profile.entranceUniv}</Box>
+                      <Box mb={2}>
+                        <Box sx={{ fontSize: "0.9rem" }}>학번</Box>
+                        <Box>{profile.entranceUniv}</Box>
+                      </Box>
+                      <Box mb={2}>
+                        <Box sx={{ fontSize: "0.9rem" }}>기수</Box>
+                        <Box>{profile.entranceClub}기</Box>
+                      </Box>
+                      <Box mb={2}>
+                        <Box sx={{ fontSize: "0.9rem" }}>Verified by.</Box>
+                        <Box>
+                          {profile.providerId === "password"
+                            ? "E-mail"
+                            : profile.providerId}
+                        </Box>
+                      </Box>
                     </Box>
-                    <Box
-                      sx={{
-                        fontSize: "1rem",
-                        margin: "1rem 0rem",
-                      }}
-                    >
-                      <Box sx={{ fontSize: "0.7rem" }}>Verified by.</Box>
-                      <Box>
-                        {profile.providerId === "password"
-                          ? "E-mail"
-                          : profile.providerId}
+
+                    <Box>
+                      <Box mb={2}>
+                        <Box sx={{ fontSize: "0.9rem" }}>이메일</Box>
+                        <Box>{profile.email}</Box>
                       </Box>
                     </Box>
                   </Box>
-                  <Box
-                    sx={{
-                      fontSize: "1rem",
-                      margin: "0rem 0rem 1rem 0rem",
-                    }}
-                  >
-                    <Box sx={{ fontSize: "0.9rem" }}>이메일</Box>
-                    <Box>{profile.email}</Box>
-                  </Box>
+
                   <Box>
                     <Box sx={{ fontSize: "0.9rem", marginBottom: "0.5rem" }}>
                       활동학기
@@ -469,6 +464,18 @@ const ProfilePage = ({ userObj, semesters }) => {
                       size="small"
                       type="number"
                       value={newProfile.entranceUniv}
+                      onChange={onChange}
+                    />
+                  </Box>
+                  <Box mb={2}>
+                    <TextField
+                      fullWidth
+                      name="entranceClub"
+                      label="기수"
+                      variant="outlined"
+                      size="small"
+                      type="number"
+                      value={newProfile.entranceClub}
                       onChange={onChange}
                     />
                   </Box>

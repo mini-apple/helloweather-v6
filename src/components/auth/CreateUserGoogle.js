@@ -28,11 +28,13 @@ import { useNavigate, useMatch } from "react-router-dom";
 const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
   let navigate = useNavigate();
   const match = useMatch("/register");
+  const currentYear = String(new Date().getFullYear());
 
   const [activeSemester, setActiveSemester] = useState([]);
   const [accountObj, setAccountObj] = useState({
     name: "",
     spaceName: "",
+    entranceClub: "",
     entranceUniv: "",
     activeSemester: [],
     activityDetails: [
@@ -59,6 +61,8 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
       setAccountObj({ ...accountObj, name: value });
     } else if (name === "spaceName") {
       setAccountObj({ ...accountObj, spaceName: value });
+    } else if (name === "entranceClub") {
+      setAccountObj({ ...accountObj, entranceClub: value });
     } else if (name === "entranceUniv") {
       setAccountObj({ ...accountObj, entranceUniv: value });
     } else if (name === "activeSemester") {
@@ -81,6 +85,7 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
     const newProfileObj = {
       activeSemester: retrievedObj.activeSemester,
       activityDetails: retrievedObj.activityDetails,
+      entranceClub: retrievedObj.entranceClub,
       entranceUniv: retrievedObj.entranceUniv,
       email: user.email,
       forecastLog: [],
@@ -113,6 +118,7 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
   const onGoogleCreate = async () => {
     if (
       accountObj.name === "" ||
+      accountObj.entranceClub === "" ||
       accountObj.entranceUniv === "" ||
       accountObj.activityDetails.length === 0 ||
       accountObj.spaceName === ""
@@ -186,11 +192,25 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
             variant="outlined"
             size="small"
             type="number"
-            placeholder={new Date().getFullYear()}
+            placeholder={currentYear}
             value={accountObj.entranceUniv}
             onChange={onChange}
           />
         </Box>
+
+        <Box sx={{ marginBottom: "0.8rem" }}>
+          <TextField
+            fullWidth
+            name="entranceClub"
+            label="기수"
+            variant="outlined"
+            size="small"
+            type="number"
+            value={accountObj.entranceClub}
+            onChange={onChange}
+          />
+        </Box>
+
         <Box sx={{ marginBottom: "1rem" }}>
           <FormControl fullWidth size="small">
             <InputLabel>활동학기</InputLabel>

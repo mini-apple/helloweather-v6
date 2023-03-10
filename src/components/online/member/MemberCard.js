@@ -38,13 +38,19 @@ const MemberCard = ({ member, semester }) => {
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex", gap: "2rem", margin: "0.4rem 0rem" }}>
-          <Box>
+        <Box sx={{ display: "flex", gap: "1rem", margin: "0.4rem 0rem" }}>
+          <Box width="2.5rem">
             <Box sx={{ fontSize: "0.6rem" }}>학번</Box>
             <Box sx={{ fontSize: "0.9rem" }}>{member.entranceUniv}</Box>
           </Box>
+
+          <Box width="3rem">
+            <Box sx={{ fontSize: "0.6rem" }}>기수</Box>
+            <Box sx={{ fontSize: "0.9rem" }}>{member.entranceClub}기</Box>
+          </Box>
+
           <Box>
-            <Box sx={{ fontSize: "0.6rem" }}>역할</Box>
+            <Box sx={{ fontSize: "0.6rem" }}>Position</Box>
             <Box sx={{ fontSize: "0.9rem" }}>{position}</Box>
           </Box>
         </Box>
