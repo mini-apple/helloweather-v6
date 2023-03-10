@@ -11,6 +11,8 @@ import Footer from "components/Footer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const [themeMode, setThemeMode] = useState(
     localStorage.getItem("theme") || "light"
   );
@@ -47,7 +49,10 @@ const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
           setThemeMode={setThemeMode}
           themeMode={themeMode}
           isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
           userObj={userObj}
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
         />
         <Box sx={{ flexGrow: 1 }} bgcolor={"action.hover"}>
           <Grid container>
@@ -58,7 +63,13 @@ const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
                   height: "100vh",
                 }}
               >
-                <Sidebar setThemeMode={setThemeMode} themeMode={themeMode} />
+                <Sidebar
+                  setThemeMode={setThemeMode}
+                  themeMode={themeMode}
+                  isLoggedIn={isLoggedIn}
+                  userObj={userObj}
+                  setIsDrawerOpen={setIsDrawerOpen}
+                />
               </Box>
             </Grid>
             <Grid item xs={12} md={10}>

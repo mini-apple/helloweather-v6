@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
@@ -19,9 +19,15 @@ import Sidebar from "./Sidebar";
 import { signOut } from "firebase/auth";
 import { auth } from "fbase";
 
-const Navbar = ({ themeMode, setThemeMode, isLoggedIn, userObj }) => {
+const Navbar = ({
+  themeMode,
+  setThemeMode,
+  isLoggedIn,
+  userObj,
+  isDrawerOpen,
+  setIsDrawerOpen,
+}) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const onLogoutClick = () => {
     signOut(auth);
@@ -42,10 +48,16 @@ const Navbar = ({ themeMode, setThemeMode, isLoggedIn, userObj }) => {
           onClose={() => setIsDrawerOpen(false)}
         >
           <Box width="200px" role="presentation">
-            <Sidebar setThemeMode={setThemeMode} themeMode={themeMode} />
+            <Sidebar
+              setThemeMode={setThemeMode}
+              themeMode={themeMode}
+              isLoggedIn={isLoggedIn}
+              userObj={userObj}
+              setIsDrawerOpen={setIsDrawerOpen}
+            />
           </Box>
         </Drawer>
-        <Link href="/" underline="none" color="inherit">
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Typography variant="h6">
             <Typography variant="h6" component="span" sx={{ color: "#ffa726" }}>
               H
@@ -86,16 +98,22 @@ const Navbar = ({ themeMode, setThemeMode, isLoggedIn, userObj }) => {
       >
         {isLoggedIn ? (
           <Box>
-            <Link href="/profile" underline="none" color="inherit">
+            <Link
+              to="/profile"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <MenuItem>{userObj.displayName} 님</MenuItem>
             </Link>
-            <Link href="/" underline="none" color="inherit">
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
               <MenuItem onClick={onLogoutClick}>로그아웃</MenuItem>
             </Link>
           </Box>
         ) : (
           <Box>
-            <Link href="/login" underline="none" color="inherit">
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <MenuItem>로그인</MenuItem>
             </Link>
           </Box>

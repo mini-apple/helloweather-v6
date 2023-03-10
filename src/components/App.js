@@ -23,6 +23,8 @@ function App() {
           updateProfile: (args) => user.updateProfile(args),
         });
         setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
       setInit(true);
     });

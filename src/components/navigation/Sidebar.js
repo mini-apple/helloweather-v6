@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -18,7 +19,13 @@ import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 
-const Sidebar = ({ themeMode, setThemeMode }) => {
+const Sidebar = ({
+  themeMode,
+  setThemeMode,
+  isLoggedIn,
+  userObj,
+  setIsDrawerOpen,
+}) => {
   // darkmode
   const toggleTheme = () => {
     const newTheme = themeMode === "light" ? "dark" : "light";
@@ -39,79 +46,117 @@ const Sidebar = ({ themeMode, setThemeMode }) => {
   return (
     <Box position="fixed" width={200} height="100vh" component={Paper}>
       <List>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="Home" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/profile">
-            <ListItemIcon>
-              <AccountBox />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="My Profile" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/member">
-            <ListItemIcon>
-              <PeopleAltIcon />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="Members" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText color={"text.secondary"} primary="홈" />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link
+          to="/profile"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <AccountBox />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText
+                  primary={isLoggedIn ? `${userObj.displayName} 님` : "프로필"}
+                />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link to="/member" style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <PeopleAltIcon />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText primary="멤버" />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
         <Divider />
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/forecast">
-            <ListItemIcon>
-              <ThermostatIcon />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="예보게임" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
+
+        <Link
+          to="/forecast"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <ThermostatIcon />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText primary="예보게임" />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
         <Divider />
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/calculator">
-            <ListItemIcon>
-              <CalculateOutlinedIcon />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="채점하기" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/string">
-            <ListItemIcon>
-              <CachedOutlinedIcon />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="정답코드" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/criteria">
-            <ListItemIcon>
-              <TableChartOutlinedIcon />
-            </ListItemIcon>
-            <ThemeProvider theme={theme}>
-              <ListItemText primary="채점기준" />
-            </ThemeProvider>
-          </ListItemButton>
-        </ListItem>
+
+        <Link
+          to="/calculator"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <CalculateOutlinedIcon />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText primary="채점하기" />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link to="/string" style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <CachedOutlinedIcon />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText primary="정답코드" />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link
+          to="/criteria"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setIsDrawerOpen(false)}>
+              <ListItemIcon>
+                <TableChartOutlinedIcon />
+              </ListItemIcon>
+              <ThemeProvider theme={theme}>
+                <ListItemText primary="채점기준" />
+              </ThemeProvider>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
         <Divider />
+
         <ListItem>
           <ListItemIcon>
             <ModeNight />
