@@ -13,14 +13,17 @@ import LoginUser from "components/auth/LoginUser";
 const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
   return (
     <Routes>
+      {/* Homepage */}
       <Route path="/" element={<Homepage />} />
 
+      {/* Authentication 관리 */}
       <Route path="/login" element={<LoginUser isLoggedIn={isLoggedIn} />} />
       <Route
         path="/register"
         element={<CreateUser isLoggedIn={isLoggedIn} semesters={semesters} />}
       />
 
+      {/* Online Pages */}
       <Route
         path="/profile"
         element={
@@ -41,8 +44,19 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
           )
         }
       />
-      <Route path="/forecast" element={<OnlineForecast />} />
+      <Route
+        path="/forecast"
+        element={
+          isLoggedIn ? (
+            <OnlineForecast semesters={semesters} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
+      <Route path="/forecast/create" />
 
+      {/* Offline Pages */}
       <Route path="/calculator" element={<OfflineCalc />} />
       <Route path="/string" element={<OfflineString />} />
       <Route path="/criteria" element={<OfflineCriteria />} />

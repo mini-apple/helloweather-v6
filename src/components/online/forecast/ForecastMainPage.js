@@ -1,50 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import Divider from "@mui/material/Divider";
+
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import InputCloudiness from "components/input/InputCloudiness";
+import InputWindDiriction from "components/input/InputWindDirenction";
+import InputWindSpeed from "components/input/InputWindSpeed";
+import InputTemperature from "components/input/InputTemperature";
+import InputPrecipitation from "components/input/InputPrecipitation";
 
-import { db } from "fbase";
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
-import MemberCard from "./MemberCard";
+import { auth, db, storage } from "fbase";
+import {
+  collection,
+  setDoc,
+  query,
+  where,
+  getDocs,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
 
-const MemberPage = ({ semesters }) => {
+const ForecastMainPage = ({ semesters }) => {
   const [selectSemester, setSelectSemester] = useState(semesters[0]);
   const [titleSemester, setTitleSemester] = useState(semesters[0]);
-  const [memberList, setMemberList] = useState([]);
 
-  useEffect(() => {
-    onGetMember();
-  }, []);
-
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     const {
       target: { value },
     } = event;
     setSelectSemester(value);
   };
 
-  const onGetMember = async () => {
-    const list = [];
-    const selectSemesterRef = collection(db, "users");
-    const q = query(
-      selectSemesterRef,
-      where("activeSemester", "array-contains", selectSemester),
-      orderBy("entranceClub"),
-      orderBy("entranceUniv"),
-      orderBy("name")
-    );
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      list.push(doc.data());
-    });
-
-    setMemberList(list);
+  const onGetForecast = () => {
     setTitleSemester(selectSemester);
   };
 
@@ -92,8 +85,8 @@ const MemberPage = ({ semesters }) => {
             </FormControl>
             <Button
               variant="outlined"
-              onClick={onGetMember}
               sx={{ width: "8rem", padding: "0rem" }}
+              onClick={onGetForecast}
             >
               불러오기
             </Button>
@@ -113,6 +106,9 @@ const MemberPage = ({ semesters }) => {
         >
           {titleSemester}
         </Box>
+        <Box mb={2}>
+          <Button variant="outlined">방 생성하기</Button>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -122,18 +118,10 @@ const MemberPage = ({ semesters }) => {
             border: { xs: "0px", md: "1px solid rgba(5, 5, 5, 10%)" },
             borderRadius: "1rem",
           }}
-        >
-          {memberList.map((member) => (
-            <MemberCard
-              key={member.uid}
-              member={member}
-              semester={titleSemester}
-            />
-          ))}
-        </Box>
+        ></Box>
       </Paper>
     </>
   );
 };
 
-export default MemberPage;
+export default ForecastMainPage;

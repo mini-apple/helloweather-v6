@@ -1,8 +1,8 @@
 import React from "react";
-import Box from "@mui/material/Box";
+import ForecastMainPage from "components/online/forecast/ForecastMainPage";
 
-const OnlineForecast = () => {
-  return <Box>OnlineForecast</Box>;
+const OnlineForecast = ({ semesters }) => {
+  return <ForecastMainPage semesters={semesters} />;
 };
 
 export default OnlineForecast;
