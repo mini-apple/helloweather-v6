@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
+
 import { startFirebaseApp, auth } from "fbase";
 import { onAuthStateChanged } from "firebase/auth";
-import { BrowserRouter } from "react-router-dom";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,8 +11,6 @@ function App() {
   const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
-    console.log("login: ", isLoggedIn);
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserObj({
@@ -28,6 +27,7 @@ function App() {
       }
       setInit(true);
     });
+    console.log("login: ", isLoggedIn);
   }, []);
 
   return (

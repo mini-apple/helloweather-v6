@@ -1,8 +1,8 @@
 import React from "react";
-import ForecastMainPage from "components/online/forecast/ForecastMainPage";
+import ForecastHomePage from "components/online/forecast/ForecastHomePage";
 
 const OnlineForecast = ({ semesters }) => {
-  return <ForecastMainPage semesters={semesters} />;
+  return <ForecastHomePage semesters={semesters} />;
 };
 
 export default OnlineForecast;

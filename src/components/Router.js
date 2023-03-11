@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Homepage from "components/home/Homepage";
 import OnlineProfile from "routes/OnlineProfile";
 import OnlineMember from "routes/OnlineMember";
@@ -9,6 +9,7 @@ import OfflineString from "routes/OfflineString";
 import OfflineCriteria from "routes/OfflineCriteria";
 import CreateUser from "components//auth/CreateUser";
 import LoginUser from "components/auth/LoginUser";
+import ForecastCreatePage from "./online/forecast/ForecastCreatePage";
 
 const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
   return (
@@ -54,7 +55,16 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
           )
         }
       />
-      <Route path="/forecast/create" />
+      <Route
+        path="/forecast/create/:semester"
+        element={
+          isLoggedIn ? (
+            <ForecastCreatePage userObj={userObj} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
 
       {/* Offline Pages */}
       <Route path="/calculator" element={<OfflineCalc />} />
