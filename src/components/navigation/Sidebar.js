@@ -84,7 +84,7 @@ const Sidebar = ({
                 <PeopleAltIcon />
               </ListItemIcon>
               <ThemeProvider theme={theme}>
-                <ListItemText primary="멤버" />
+                <ListItemText primary="멤버들" />
               </ThemeProvider>
             </ListItemButton>
           </ListItem>
