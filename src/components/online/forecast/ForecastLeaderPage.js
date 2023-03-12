@@ -457,11 +457,11 @@ const ForecastLeaderPage = ({ userObj }) => {
         );
         await updateDoc(doc(db, "users", uid), {
           forecastLog: arrayUnion({
-            ...newForecastObj.userAnswerObj[uid],
-            leaderName: forecastObj.leaderName,
-            forecastDate: forecastObj.forecastDate,
-            timestamp: forecastObj.timestamp,
             area: `${forecastObj.area_1}, ${forecastObj.area_2}`,
+            forecastDate: forecastObj.forecastDate,
+            leaderName: forecastObj.leaderName,
+            timestamp: forecastObj.timestamp,
+            score: sum,
           }),
         });
       } catch (e) {

@@ -40,7 +40,15 @@ const ProfilePage = ({ userObj, semesters }) => {
     entranceClub: "",
     entranceUniv: "",
     email: "",
-    forecastLog: [],
+    forecastLog: [
+      {
+        area: "",
+        forecastDate: "",
+        leaderName: "",
+        score: "",
+        timestamp: "",
+      },
+    ],
     name: "",
     photoURL: "",
     providerId: "",
@@ -54,7 +62,15 @@ const ProfilePage = ({ userObj, semesters }) => {
     entranceClub: "",
     entranceUniv: "",
     email: "",
-    forecastLog: [],
+    forecastLog: [
+      {
+        area: "",
+        forecastDate: "",
+        leaderName: "",
+        score: "",
+        timestamp: "",
+      },
+    ],
     name: "",
     photoURL: "",
     providerId: "",
@@ -562,7 +578,7 @@ const ProfilePage = ({ userObj, semesters }) => {
               margin: { xs: "0rem 0rem 1rem 0rem", md: "1rem" },
               padding: "1rem",
               borderRadius: { xs: "0rem", md: "1rem" },
-              height: { xs: "20vh", md: "30vh" },
+              minHeight: { xs: "20vh", md: "50vh" },
             }}
           >
             <Box
@@ -584,12 +600,26 @@ const ProfilePage = ({ userObj, semesters }) => {
                   borderRadius: "0.5rem",
                 }}
               >
-                <Box>일시</Box>
+                <Box sx={{ width: "5rem", textAlign: "center" }}>일시</Box>
                 <Box>인도자</Box>
-                <Box>평균점수</Box>
-                <Box>나의점수</Box>
+                <Box sx={{ width: "4rem", textAlign: "center" }}>지역</Box>
+                <Box>점수</Box>
               </Box>
             </Paper>
+            {profile.forecastLog.map((forecast) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "0.5rem 1rem",
+                }}
+              >
+                <Box>{forecast.forecastDate}</Box>
+                <Box>{forecast.leaderName}</Box>
+                <Box>{forecast.area}</Box>
+                <Box>{forecast.score}</Box>
+              </Box>
+            ))}
           </Paper>
         </Grid>
       </Grid>
