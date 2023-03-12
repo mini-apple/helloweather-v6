@@ -10,6 +10,9 @@ import OfflineCriteria from "routes/OfflineCriteria";
 import CreateUser from "components//auth/CreateUser";
 import LoginUser from "components/auth/LoginUser";
 import ForecastCreatePage from "./online/forecast/ForecastCreatePage";
+import ForecastGamePage from "./online/forecast/ForecastGamePage";
+import ForecastResultPage from "./online/forecast/ForecastResultPage";
+import ForecastLeaderPage from "./online/forecast/ForecastLeaderPage";
 
 const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
   return (
@@ -60,6 +63,36 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
         element={
           isLoggedIn ? (
             <ForecastCreatePage userObj={userObj} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
+      <Route
+        path="/forecast/game/:semester/:id/:spaceName"
+        element={
+          isLoggedIn ? (
+            <ForecastGamePage userObj={userObj} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
+      <Route
+        path="/forecast/leader/:semester/:id"
+        element={
+          isLoggedIn ? (
+            <ForecastLeaderPage userObj={userObj} />
+          ) : (
+            <LoginUser isLoggedIn={isLoggedIn} />
+          )
+        }
+      />
+      <Route
+        path="/forecast/result/:semester/:id/:spaceName"
+        element={
+          isLoggedIn ? (
+            <ForecastResultPage userObj={userObj} />
           ) : (
             <LoginUser isLoggedIn={isLoggedIn} />
           )

@@ -46,6 +46,7 @@ const ForecastCreatePage = ({ userObj }) => {
     leaderAnswerInAdvance: true,
     leaderName: userObj.displayName,
     leaderSpaceName: "",
+    leaderUID: userObj.uid,
     timestamp: new Date().getTime(),
     semester: semester,
     userAnswerObj: {},
@@ -98,13 +99,13 @@ const ForecastCreatePage = ({ userObj }) => {
     }
     // 정답문자열 만들기
     const plainText = `${L1.cloudiness}/${L1.windDirection}/${L1.windSpeed}/${L1.temperature}/${L1.precipitation}/${L2.cloudiness}/${L2.windDirection}/${L2.windSpeed}/${L2.temperature}/${L2.precipitation}`;
-    setCreatorObj({ ...creatorObj, leaderAnswer: plainText });
+    const newCreatorObj = { ...creatorObj, leaderAnswer: plainText };
 
     // firestore에 저장하기
     try {
       const docRef = await setDoc(
         doc(db, `${creatorObj.semester}`, `${creatorObj.timestamp}`),
-        creatorObj
+        newCreatorObj
       );
       alert("등록이 완료되었습니다!");
       navigate("/forecast");

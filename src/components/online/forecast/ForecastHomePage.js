@@ -36,18 +36,16 @@ const ForecastHomePage = ({ semesters }) => {
   };
 
   useEffect(() => {
-    getForecastGameData();
-    console.log(forecastGameList);
+    getForecastGameListData();
   }, [selectSemester]);
 
-  const getForecastGameData = async () => {
+  const getForecastGameListData = async () => {
     const collectionName = `${selectSemester}`.slice(0, -2);
     const q = query(collection(db, collectionName));
 
     onSnapshot(q, (querySnapshot) => {
       const gameList = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
         gameList.push(doc.data());
       });
       setForecastGameList(gameList);
@@ -134,9 +132,13 @@ const ForecastHomePage = ({ semesters }) => {
                   borderRadius: "0.5rem",
                 }}
               >
-                <Box>
+                <Box sx={{ display: { xs: "none", md: "block" } }}>
                   <Box sx={{ fontSize: "0.6rem" }}>일시</Box>
                   <Box>{forecastGame.forecastDate}</Box>
+                </Box>
+                <Box sx={{ display: { xs: "block", md: "none" } }}>
+                  <Box sx={{ fontSize: "0.6rem" }}>일시</Box>
+                  <Box>{forecastGame.forecastDate.slice(5)}</Box>
                 </Box>
                 <Box>
                   <Box sx={{ fontSize: "0.6rem" }}>인도자</Box>
@@ -144,9 +146,9 @@ const ForecastHomePage = ({ semesters }) => {
                 </Box>
                 <Box>
                   <Box sx={{ fontSize: "0.6rem" }}>제출됨</Box>
-                  <Box>{forecastGame.userList.length}</Box>
+                  <Box>{Object.keys(forecastGame.userAnswerObj).length}</Box>
                 </Box>
-                <Box sx={{ display: { xs: "none", md: "block" } }}>
+                <Box>
                   <Box sx={{ fontSize: "0.6rem" }}>지역</Box>
                   <Box>{`${forecastGame.area_1},  ${forecastGame.area_2}`}</Box>
                 </Box>
@@ -155,14 +157,47 @@ const ForecastHomePage = ({ semesters }) => {
                   <Box>{forecastGame.timestamp}</Box>
                 </Box>
                 <Box>
-                  <Button
-                    variant="outlined"
-                    color={
-                      forecastGame.forecastStatus === true ? "success" : "error"
-                    }
-                  >
-                    {forecastGame.forecastStatus === true ? "진행중" : "마감"}
-                  </Button>
+                  {forecastGame.forecastStatus ? (
+                    <Button
+                      sx={{
+                        width: { xs: "4rem", md: "5rem" },
+                        height: "2.4rem",
+                        padding: "0rem",
+                        borderRadius: "5rem",
+                      }}
+                      variant="outlined"
+                      color="success"
+                      onClick={() => {
+                        navigate(
+                          `/forecast/game/${selectSemester.slice(0, -2)}/${
+                            forecastGame.timestamp
+                          }/${forecastGame.leaderSpaceName}`
+                        );
+                      }}
+                    >
+                      진행중
+                    </Button>
+                  ) : (
+                    <Button
+                      sx={{
+                        width: { xs: "4rem", md: "5rem" },
+                        height: "2.4rem",
+                        padding: "0rem",
+                        borderRadius: "5rem",
+                      }}
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        navigate(
+                          `/forecast/result/${selectSemester.slice(0, -2)}/${
+                            forecastGame.timestamp
+                          }/${forecastGame.leaderSpaceName}`
+                        );
+                      }}
+                    >
+                      마감
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ))
