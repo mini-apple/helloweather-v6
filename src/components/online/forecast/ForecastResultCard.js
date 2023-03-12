@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
 
 import Divider from "@mui/material/Divider";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -15,83 +14,19 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import InputCloudiness from "components/input/InputCloudiness";
-import InputWindDiriction from "components/input/InputWindDirenction";
-import InputWindSpeed from "components/input/InputWindSpeed";
-import InputTemperature from "components/input/InputTemperature";
-import InputPrecipitation from "components/input/InputPrecipitation";
-
-import { auth, db, storage } from "fbase";
-import {
-  collection,
-  getDoc,
-  setDoc,
-  query,
-  where,
-  getDocs,
-  doc,
-  onSnapshot,
-} from "firebase/firestore";
-import ForecastResultCard from "./ForecastResultCard";
-
-const ForecastResultPage = ({ userObj }) => {
-  const { semester, id, spaceName } = useParams();
-  const [forecastObj, setForecastObj] = useState({
-    area_1: "",
-    area_2: "",
-    forecastDate: "",
-    forecastStatus: "",
-    leaderAnswer: "",
-    leaderAnswerInAdvance: "",
-    leaderName: "",
-    leaderSpaceName: "",
-    leaderUID: "",
-    timestamp: "",
-    semester: "",
-    userAnswerObj: {},
-    userList: [],
-  });
-  const [participants, setParticipants] = useState([]);
+const ForecastResultCard = ({ participant, area_1, area_2 }) => {
+  const [open, setOpen] = useState(false);
   const [answerTable, setAnswerTable] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
-  useEffect(() => {
-    getForecastGameData();
-  }, []);
-
-  const getForecastGameData = async () => {
-    const docRef = doc(db, `${semester}`, id);
-
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      setForecastObj(data);
-      findName(data);
-      onAnswerTable(data.leaderAnswer);
-    }
+  const onOpenClick = () => {
+    setOpen(!open);
+    onAnswerTable();
   };
 
-  const findName = async (data) => {
-    //uid로 이름찾기
-    const UIDList = Object.keys(data.userAnswerObj);
-    const nameList = [];
-    try {
-      const q = query(collection(db, "users"), where("uid", "in", UIDList));
-
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        nameList.push(doc.data().name);
-      });
-      setParticipants(nameList);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
-
-  const onAnswerTable = (leaderAnswer) => {
-    const inpList = leaderAnswer.split("/");
+  const onAnswerTable = () => {
+    const inpList = participant.userAnswer.split("/");
     const newList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     // 3.정답 표시해주기
@@ -243,96 +178,56 @@ const ForecastResultPage = ({ userObj }) => {
   };
 
   return (
-    <Grid container>
-      <Grid item xs={12} md={6}>
-        <Paper
-          sx={{
-            margin: { xs: "1rem 0rem 0rem 0rem", md: "1rem" },
-            padding: "1rem",
-            borderRadius: { xs: "0rem", md: "1rem" },
-          }}
-        >
-          <Box
+    <Box
+      bgcolor={"action.hover"}
+      sx={{
+        padding: { xs: "0.2rem 0.5rem", md: "0.2rem 1rem" },
+        borderRadius: "0.5rem",
+      }}
+    >
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box>
+          <Box sx={{ fontSize: "0.6rem" }}>이름</Box>
+          <Box>{participant.userName}</Box>
+        </Box>
+        <Box>
+          <Box sx={{ fontSize: "0.6rem" }}>점수</Box>
+          <Box>{participant.userScore}</Box>
+        </Box>
+        <Box sx={{ lineHeight: "2.1rem" }}>
+          <IconButton aria-label="delete" size="small" onClick={onOpenClick}>
+            <AddIcon />
+          </IconButton>
+        </Box>
+      </Box>
+      {open && (
+        <>
+          <Box mt={3} sx={{ fontSize: "0.9rem", fontWeight: "400" }}>
+            1. 입력값
+          </Box>
+          <TableContainer
             sx={{
-              fontSize: "1.1rem",
-              fontWeight: "500",
-              marginBottom: "2rem",
+              margin: "0.5rem 0rem",
+              border: "1px solid rgba(5, 5, 5, 10%)",
+              borderRadius: "0.5rem",
             }}
           >
-            예보 정보
-          </Box>
-
-          <Box sx={{ display: "flex", gap: { xs: "5rem", md: "10rem" } }}>
-            <Box>
-              <Box mb={3}>
-                <Box sx={{ fontSize: "0.8rem" }}>학기</Box>
-                <Box sx={{ fontSize: "1.1rem" }}>
-                  {forecastObj.semester}학기
-                </Box>
-              </Box>
-              <Box mb={3}>
-                <Box sx={{ fontSize: "0.8rem" }}>인도자</Box>
-                <Box sx={{ fontSize: "1.1rem" }}>{forecastObj.leaderName}</Box>
-              </Box>
-              <Box mb={3}>
-                <Box sx={{ fontSize: "0.8rem" }}>지역</Box>
-                <Box sx={{ fontSize: "1.1rem" }}>
-                  {`${forecastObj.area_1}, ${forecastObj.area_2}`}
-                </Box>
-              </Box>
-            </Box>
-            <Box>
-              <Box mb={3}>
-                <Box sx={{ fontSize: "0.8rem" }}>일시</Box>
-                <Box sx={{ fontSize: "1.1rem" }}>
-                  {forecastObj.forecastDate}
-                </Box>
-              </Box>
-              <Box mb={3}>
-                <Box sx={{ fontSize: "0.8rem" }}>등록번호</Box>
-                <Box sx={{ fontSize: "1.1rem" }}>{forecastObj.timestamp}</Box>
-              </Box>
-              <Box mb={1}>
-                <Box sx={{ fontSize: "0.8rem" }}>제출됨</Box>
-                <Box sx={{ fontSize: "1.1rem" }}>
-                  {Object.keys(forecastObj.userAnswerObj).length} 명
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-
-          <Box mb={5}>
-            <Box sx={{ fontSize: "0.8rem" }}>참여자 명단</Box>
-            <Box sx={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              {participants.map((p) => (
-                <Box>{p}</Box>
-              ))}
-            </Box>
-          </Box>
-
-          <Box mt={2} mb={2}>
-            <Divider />
-          </Box>
-          <Box
-            sx={{
-              fontSize: "1.1rem",
-              fontWeight: "500",
-              marginBottom: "2rem",
-            }}
-          >
-            정답표
-          </Box>
-
-          <TableContainer component={Paper}>
             <Table size="small">
               <TableHead>
-                <TableRow>
+                <TableRow
+                  sx={{
+                    "& th": {
+                      padding: { xs: "0.2rem 0rem", md: "0.2rem" },
+                      fontSize: "0.9rem",
+                    },
+                  }}
+                >
                   <TableCell></TableCell>
                   <TableCell component="th" align="center">
-                    {forecastObj.area_1}
+                    {area_1}
                   </TableCell>
                   <TableCell component="th" align="center">
-                    {forecastObj.area_2}
+                    {area_2}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -400,39 +295,138 @@ const ForecastResultPage = ({ userObj }) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Paper>
-      </Grid>
 
-      <Grid item xs={12} md={6}>
-        <Paper
-          sx={{
-            margin: { xs: "1rem 0rem 0rem 0rem", md: "1rem" },
-            padding: "1rem",
-            borderRadius: { xs: "0rem", md: "1rem" },
-          }}
-        >
-          <Box
+          <Box mt={3} sx={{ fontSize: "0.9rem", fontWeight: "400" }}>
+            2. 점수
+          </Box>
+
+          <TableContainer
             sx={{
-              fontSize: "1.1rem",
-              fontWeight: "500",
-              marginBottom: "2rem",
+              margin: "0.5rem 0rem",
+              border: "1px solid rgba(5, 5, 5, 10%)",
+              borderRadius: "0.5rem",
             }}
           >
-            예보게임 결과
-          </Box>
-          <Box>
-            {forecastObj.userList.map((user) => (
-              <ForecastResultCard
-                participant={forecastObj.userAnswerObj[user]}
-                area_1={forecastObj.area_1}
-                area_2={forecastObj.area_2}
-              />
-            ))}
-          </Box>
-        </Paper>
-      </Grid>
-    </Grid>
+            <Table size="small">
+              <TableHead>
+                <TableRow
+                  sx={{
+                    "& th": {
+                      padding: { xs: "0.2rem 0rem", md: "0.2rem" },
+                      fontSize: "0.9rem",
+                    },
+                  }}
+                >
+                  <TableCell component="th" align="center" colSpan={5}>
+                    {area_1}
+                  </TableCell>
+                  <TableCell component="th" align="center" colSpan={5}>
+                    {area_2}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow
+                  sx={{
+                    "& td": { padding: "0.4rem", fontSize: "0.9rem" },
+                  }}
+                >
+                  <TableCell align="center">운량</TableCell>
+                  <TableCell align="center">풍향</TableCell>
+                  <TableCell align="center">풍속</TableCell>
+                  <TableCell align="center">기온</TableCell>
+                  <TableCell align="center">강수</TableCell>
+                  <TableCell align="center">운량</TableCell>
+                  <TableCell align="center">풍향</TableCell>
+                  <TableCell align="center">풍속</TableCell>
+                  <TableCell align="center">기온</TableCell>
+                  <TableCell align="center">강수</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "& td": { padding: "0.4rem 0rem", fontSize: "0.9rem" },
+                  }}
+                >
+                  <TableCell align="center">
+                    {participant.userResult[0]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[1]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[2]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[3]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[4]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[5]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[6]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[7]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[8]}
+                  </TableCell>
+                  <TableCell align="center">
+                    {participant.userResult[9]}
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "& td": {
+                      padding: { xs: "0.4rem 0rem", md: "0.3rem" },
+                      fontSize: "0.9rem",
+                    },
+                  }}
+                >
+                  <TableCell align="center" colSpan={10}>
+                    근거점수
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "& td": { padding: "0.3rem 0rem", fontSize: "0.9rem" },
+                  }}
+                >
+                  <TableCell align="center" colSpan={10}>
+                    {participant.userEvid}
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "& td": {
+                      padding: { xs: "0.4rem 0rem", md: "0.3rem" },
+                      fontSize: "0.9rem",
+                    },
+                  }}
+                >
+                  <TableCell align="center" colSpan={10}>
+                    채점결과
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "& td": { padding: "0.3rem 0rem", fontSize: "0.9rem" },
+                  }}
+                >
+                  <TableCell align="center" colSpan={10}>
+                    {participant.userScore}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
+    </Box>
   );
 };
 
-export default ForecastResultPage;
+export default ForecastResultCard;

@@ -115,7 +115,6 @@ const ForecastGamePage = ({ userObj }) => {
 
       if (data.leaderUID === userObj.uid) {
         setIsLeader(true);
-        navigate(`/forecast/leader/${semester}/${id}`);
       }
       // 이전 입력데이터 있을 경우 가져오기
       if (data.userAnswerObj.hasOwnProperty(userObj.uid)) {
@@ -444,6 +443,10 @@ const ForecastGamePage = ({ userObj }) => {
     setEvid(value);
   };
 
+  const navigateLeader = () => {
+    navigate(`/forecast/leader/${semester}/${id}`);
+  };
+
   return (
     <Grid container>
       <Grid item xs={12} md={6}>
@@ -502,6 +505,17 @@ const ForecastGamePage = ({ userObj }) => {
               </Box>
             </Box>
           </Box>
+
+          {isLeader && (
+            <>
+              <Box mt={4}>
+                <Divider />
+              </Box>
+              <Button size="small" onClick={navigateLeader}>
+                채점 관리 페이지로 가기
+              </Button>
+            </>
+          )}
         </Paper>
         <Paper
           sx={{

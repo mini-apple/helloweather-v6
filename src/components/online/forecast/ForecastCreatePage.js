@@ -55,7 +55,6 @@ const ForecastCreatePage = ({ userObj }) => {
 
   useEffect(() => {
     getUserData();
-    console.log("creatorObj", creatorObj);
   }, []);
 
   const getUserData = async () => {
@@ -65,7 +64,7 @@ const ForecastCreatePage = ({ userObj }) => {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+
       setCreatorObj({ ...creatorObj, leaderSpaceName: doc.data().spaceName });
     });
   };
@@ -91,7 +90,6 @@ const ForecastCreatePage = ({ userObj }) => {
         L2.temperature === "" ||
         L2.precipitation === "")
     ) {
-      console.log(creatorObj.leaderAnswerInAdvance);
       alert(
         "정답을 모두 입력해주세요. 또는 채점할 때 입력하기를 선택해주세요."
       );
@@ -126,7 +124,6 @@ const ForecastCreatePage = ({ userObj }) => {
     } else if (name === "area2") {
       setCreatorObj({ ...creatorObj, area_2: value });
     } else if (name === "answerInAdvance") {
-      console.log(value === "true" ? true : false);
       setAnswerInAdvance(value);
       setCreatorObj({
         ...creatorObj,

@@ -176,7 +176,7 @@ const ForecastLeaderPage = ({ userObj }) => {
     const plainText = `${L1.cloudiness}/${L1.windDirection}/${L1.windSpeed}/${L1.temperature}/${L1.precipitation}/${L2.cloudiness}/${L2.windDirection}/${L2.windSpeed}/${L2.temperature}/${L2.precipitation}`;
 
     const UIDList = Object.keys(forecastObj.userAnswerObj);
-    console.log(UIDList);
+
     const newForecastObj = {
       ...forecastObj,
       leaderAnswer: plainText,
@@ -233,7 +233,6 @@ const ForecastLeaderPage = ({ userObj }) => {
         parseFloat(inpList[8]),
         parseFloat(inpList[9]),
       ];
-      console.log(inp);
 
       const diff = [
         inp[0] - ans[0],
@@ -438,7 +437,6 @@ const ForecastLeaderPage = ({ userObj }) => {
         sum = sum + res[i];
       }
       sum = sum + evidScore;
-      console.log("diff", diff, "res", res, "score", sum);
 
       const newForecastObj = forecastObj;
       newForecastObj.forecastStatus = false;
@@ -561,7 +559,9 @@ const ForecastLeaderPage = ({ userObj }) => {
               <Box>
                 <Box mb={5}>
                   <Box sx={{ fontSize: "0.8rem" }}>정답 제출자 명단</Box>
-                  <Box sx={{ display: "flex", gap: "0.5rem" }}>
+                  <Box
+                    sx={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}
+                  >
                     {participants.map((p) => (
                       <Box>{p}</Box>
                     ))}
