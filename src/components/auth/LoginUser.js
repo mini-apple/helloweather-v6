@@ -57,9 +57,7 @@ function LoginUser({ isLoggedIn }) {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
-        alert(
-          `로그인 오류 정보\nerrorCode:  ${errorCode} \nerrorMessage:  ${errorMessage}`
-        );
+        alert(`로그인 오류 정보\nerrorCode:  ${errorCode}`);
       });
   };
 
@@ -87,7 +85,7 @@ function LoginUser({ isLoggedIn }) {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        alert(errorCode);
       });
   };
 
