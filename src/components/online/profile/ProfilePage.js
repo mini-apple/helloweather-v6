@@ -25,9 +25,10 @@ import {
   getDocs,
   doc,
   onSnapshot,
+  deleteDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { signOut, updateProfile } from "firebase/auth";
+import { deleteUser, signOut, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const ProfilePage = ({ userObj, semesters }) => {
@@ -238,6 +239,29 @@ const ProfilePage = ({ userObj, semesters }) => {
         setNewProfile({ ...newProfile });
         console.log(newProfile);
       }
+    }
+  };
+
+  const onDeleteUser = async () => {
+    const ok = window.confirm(
+      `${userObj.displayName}님의 모든 예보기록 및 회원정보가 삭제됩니다.\n회원탈퇴를 하시겠습니까?`
+    );
+
+    if (ok) {
+      const user = auth.currentUser;
+
+      await deleteDoc(doc(db, "users", user.uid));
+
+      deleteUser(user)
+        .then(() => {
+          alert(
+            `${userObj.displayName}님의 회원탈퇴가 정상적으로 처리되었습니다.`
+          );
+        })
+        .catch((e) => {
+          // An error ocurred
+          alert(`${e.Code}\n회원탈퇴 실패`);
+        });
     }
   };
 
@@ -557,13 +581,22 @@ const ProfilePage = ({ userObj, semesters }) => {
                       </Box>
                     ))}
                   </Box>
-                  <Box>
+                  <Box sx={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
                     <Button
                       variant="outlined"
                       size="small"
                       onClick={onSaveProfileInfo}
                     >
                       수정하기
+                    </Button>
+                    <Button
+                      disableElevation
+                      variant="contained"
+                      size="small"
+                      color="error"
+                      onClick={onDeleteUser}
+                    >
+                      회원탈퇴
                     </Button>
                   </Box>
                 </Box>
