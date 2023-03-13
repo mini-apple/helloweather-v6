@@ -27,7 +27,6 @@ function App() {
       }
       setInit(true);
     });
-    console.log("login: ", isLoggedIn);
   }, []);
 
   return (

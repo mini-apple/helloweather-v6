@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "fbase";
 import {
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithRedirect,
@@ -19,6 +20,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import GoogleIcon from "@mui/icons-material/Google";
+import Alert from "@mui/material/Alert";
 
 function LoginUser({ isLoggedIn }) {
   const [email, setEmail] = useState("");
@@ -41,6 +43,8 @@ function LoginUser({ isLoggedIn }) {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "resetEmail") {
+      setResetEmail(value);
     }
   };
 
@@ -68,6 +72,23 @@ function LoginUser({ isLoggedIn }) {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  // 비밀번호 재설정
+  const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+
+  const sendPasswordEmail = () => {
+    sendPasswordResetEmail(auth, resetEmail)
+      .then(() => {
+        // Password reset email sent!
+        alert("이메일이 발송되었습니다.");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   };
 
   return (
@@ -178,11 +199,56 @@ function LoginUser({ isLoggedIn }) {
 
         <Box className="sign-in-toggle">
           <Divider />
-          <Button variant="text" onClick={() => navigate("/register")}>
-            계정생성하기
-          </Button>
+          <Box sx={{ display: "flex" }}>
+            <Button variant="text" onClick={() => navigate("/register")}>
+              계정생성하기
+            </Button>
+
+            <Button
+              variant="text"
+              onClick={() => setShowResetPasswordForm(!showResetPasswordForm)}
+            >
+              비밀번호 재설정
+            </Button>
+          </Box>
         </Box>
       </Paper>
+
+      {showResetPasswordForm && (
+        <Paper
+          sx={{
+            margin: { xs: "1rem 0rem", md: "1rem" },
+            padding: "1rem",
+            borderRadius: { xs: "0rem", md: "1rem" },
+          }}
+        >
+          <Box
+            sx={{
+              fontSize: "1.1rem",
+              fontWeight: "500",
+              marginBottom: "2rem",
+            }}
+          >
+            비밀번호 재설정 이메일 보내기
+          </Box>
+          <Box>이메일 틀리면 엉뚱한 사람한테 메일이 날아갑니다. (조심!)</Box>
+          <Box>Gmail 5초, Naver 30초, Daum 3분정도 걸립니다.</Box>
+          <Box sx={{ margin: "1rem 0rem", width: "20rem" }}>
+            <TextField
+              fullWidth
+              name="resetEmail"
+              label="계정 이메일"
+              variant="outlined"
+              size="small"
+              value={resetEmail}
+              onChange={onChange}
+            />
+          </Box>
+          <Button variant="outlined" size="small" onClick={sendPasswordEmail}>
+            이메일 보내기
+          </Button>
+        </Paper>
+      )}
     </>
   );
 }

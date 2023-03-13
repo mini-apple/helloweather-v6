@@ -185,6 +185,7 @@ const CreateUserEmail = ({ semesters }) => {
         <Box sx={{ marginBottom: "0.8rem" }}>
           <Alert severity="info">
             Space Name은 고유하고 짧은 계정 식별자로, '@' 기호로 시작합니다.
+            Instagram 아이디, YouTube 핸들과 같은 기능입니다.
           </Alert>
         </Box>
         <Box sx={{ textAlign: "center", margin: "1rem 0rem 0.5rem 0rem" }}>
