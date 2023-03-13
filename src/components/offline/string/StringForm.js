@@ -63,9 +63,14 @@ function StringForm() {
     setString(plainText);
   };
 
-  const onCopy = () => {
-    navigator.clipboard.writeText(string);
-    alert("복사되었습니다.");
+  const onCopy = async () => {
+    try {
+      await window.navigator.clipboard.writeText(string).then(() => {
+        alert("복사되었습니다.");
+      });
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const theme = createTheme({
