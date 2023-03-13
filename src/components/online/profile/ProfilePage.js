@@ -534,14 +534,14 @@ const ProfilePage = ({ userObj, semesters }) => {
                         </Button>
                         <FormControl fullWidth size="small">
                           <InputLabel id="demo-simple-select-label">
-                            직급
+                            position
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             name={"position" + detail.index}
                             value={detail.position}
-                            label="직급"
+                            label="position"
                             onChange={onChange}
                           >
                             <MenuItem value={"리더"}>리더</MenuItem>

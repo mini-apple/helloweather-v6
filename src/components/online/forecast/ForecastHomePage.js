@@ -119,7 +119,9 @@ const ForecastHomePage = ({ semesters }) => {
           }}
         >
           {forecastGameList.length === 0 ? (
-            <Box sx={{ textAlign: "center" }}>등록된 예보게임이 없습니다.</Box>
+            <Box sx={{ textAlign: "center", padding: "5rem 0rem" }}>
+              등록된 예보게임이 없습니다.
+            </Box>
           ) : (
             forecastGameList.map((forecastGame) => (
               <Box

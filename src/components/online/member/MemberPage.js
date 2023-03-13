@@ -11,6 +11,7 @@ import Divider from "@mui/material/Divider";
 import { db } from "fbase";
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import MemberCard from "./MemberCard";
+import { textAlign } from "@mui/system";
 
 const MemberPage = ({ semesters }) => {
   const [selectSemester, setSelectSemester] = useState(semesters[0]);
@@ -70,7 +71,7 @@ const MemberPage = ({ semesters }) => {
         <Box>
           <Box
             sx={{
-              width: { xs: "100%", md: "30%" },
+              width: { xs: "100%", md: "25%" },
               display: "flex",
               gap: "0.5rem",
             }}
@@ -114,22 +115,29 @@ const MemberPage = ({ semesters }) => {
           {titleSemester}
         </Box>
         <Box
+          bgcolor={"action.hover"}
           sx={{
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
-            padding: { xs: "0rem", md: "1rem 5rem" },
-            border: { xs: "0px", md: "1px solid rgba(5, 5, 5, 10%)" },
+            padding: { xs: "0rem 0.3rem", md: "1rem 5rem" },
             borderRadius: "1rem",
           }}
         >
-          {memberList.map((member) => (
-            <MemberCard
-              key={member.uid}
-              member={member}
-              semester={titleSemester}
-            />
-          ))}
+          {memberList.length === 0 ? (
+            <Box sx={{ textAlign: "center", padding: "5rem 0rem" }}>
+              <Box mb={1}>해당 학기의 활동멤버 정보가 없습니다.</Box>
+              <Box>프로필에서 활동학기를 설정해주세요.</Box>
+            </Box>
+          ) : (
+            memberList.map((member) => (
+              <MemberCard
+                key={member.uid}
+                member={member}
+                semester={titleSemester}
+              />
+            ))
+          )}
         </Box>
       </Paper>
     </>
