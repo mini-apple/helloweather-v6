@@ -96,18 +96,18 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
       uid: user.uid,
     };
 
+    // displayName 업데이트
+    await updateProfile(auth.currentUser, {
+      displayName: newProfileObj.name,
+    });
+
     // firestore에 newProfileObj를 저장
     try {
       const docRef = await setDoc(
         doc(db, "users", `${user.uid}`),
         newProfileObj
       );
-      if (user.displayName !== newProfileObj.name) {
-        // displayName 업데이트
-        await updateProfile(auth.currentUser, {
-          displayName: newProfileObj.name,
-        });
-      }
+
       alert("프로필이 저장되었습니다!");
     } catch (e) {
       console.error("Error adding document: ", e);

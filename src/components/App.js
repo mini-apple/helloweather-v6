@@ -19,7 +19,6 @@ function App() {
           uid: user.uid,
           email: user.email,
           provider: user.providerData[0].providerId,
-          updateProfile: (args) => user.updateProfile(args),
         });
         setIsLoggedIn(true);
       } else {
@@ -29,6 +28,17 @@ function App() {
     });
   }, []);
 
+  const refreshUserObj = () => {
+    const user = auth.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      email: user.email,
+      provider: user.providerData[0].providerId,
+    });
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -37,6 +47,7 @@ function App() {
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           userObj={userObj}
+          refreshUserObj={refreshUserObj}
         />
       </BrowserRouter>
     </>

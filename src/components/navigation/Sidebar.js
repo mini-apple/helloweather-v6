@@ -19,6 +19,8 @@ import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 
+import { auth } from "fbase";
+
 const Sidebar = ({
   themeMode,
   setThemeMode,

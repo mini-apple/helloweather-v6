@@ -10,7 +10,13 @@ import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
+const Layout = ({
+  init,
+  isLoggedIn,
+  setIsLoggedIn,
+  userObj,
+  refreshUserObj,
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [themeMode, setThemeMode] = useState(
@@ -83,6 +89,7 @@ const Layout = ({ init, isLoggedIn, setIsLoggedIn, userObj }) => {
                     isLoggedIn={isLoggedIn}
                     setIsLoggedIn={setIsLoggedIn}
                     userObj={userObj}
+                    refreshUserObj={refreshUserObj}
                     semesters={semesters}
                   />
                 ) : (

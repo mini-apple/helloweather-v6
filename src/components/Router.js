@@ -15,7 +15,13 @@ import ForecastResultPage from "./online/forecast/ForecastResultPage";
 import ForecastLeaderPage from "./online/forecast/ForecastLeaderPage";
 import NotFound from "./NotFound";
 
-const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
+const Router = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  userObj,
+  refreshUserObj,
+  semesters,
+}) => {
   return (
     <Routes>
       {/* Homepage */}
@@ -33,7 +39,11 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
         path="/profile"
         element={
           isLoggedIn ? (
-            <OnlineProfile userObj={userObj} semesters={semesters} />
+            <OnlineProfile
+              userObj={userObj}
+              refreshUserObj={refreshUserObj}
+              semesters={semesters}
+            />
           ) : (
             <LoginUser isLoggedIn={isLoggedIn} />
           )

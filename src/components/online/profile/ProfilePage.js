@@ -31,7 +31,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteUser, signOut, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
-const ProfilePage = ({ userObj, semesters }) => {
+const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
   const navigate = useNavigate();
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [activeSemester, setActiveSemester] = useState([]);
@@ -139,7 +139,13 @@ const ProfilePage = ({ userObj, semesters }) => {
         ...profile,
         photoURL: "",
       });
-      alert("기본 프로필사진으로 변경되었습니다.");
+
+      await updateProfile(auth.currentUser, {
+        photoURL: "",
+      }).then(() => {
+        refreshUserObj();
+        alert("기본 프로필사진으로 변경되었습니다.");
+      });
     } catch (e) {
       alert(`프로필 사진 변경에 실패했습니다. \nError adding document: ${e}`);
     }
@@ -166,6 +172,9 @@ const ProfilePage = ({ userObj, semesters }) => {
 
       await updateProfile(auth.currentUser, {
         photoURL: attachmentUrl,
+      }).then(() => {
+        refreshUserObj();
+        alert("프로필 사진이 업데이트 되었습니다.");
       });
     }
 
@@ -192,8 +201,10 @@ const ProfilePage = ({ userObj, semesters }) => {
       // displayName 업데이트
       await updateProfile(auth.currentUser, {
         displayName: newProfile.name,
+      }).then(() => {
+        refreshUserObj();
+        alert("프로필 정보가 업데이트 되었습니다.");
       });
-      alert("프로필이 업데이트 되었습니다.");
     } catch (e) {
       alert(`프로필 업데이트를 실패했습니다. \nError adding document: ${e}`);
     }
@@ -583,7 +594,7 @@ const ProfilePage = ({ userObj, semesters }) => {
                   <Box
                     sx={{
                       display: "flex",
-                      gap: "1rem",
+                      gap: "0.5rem",
                       marginTop: "2rem",
                     }}
                   >
@@ -601,7 +612,7 @@ const ProfilePage = ({ userObj, semesters }) => {
                       size="small"
                       onClick={onSaveProfileInfo}
                     >
-                      수정하기
+                      프로필 저장
                     </Button>
                   </Box>
                 </Box>

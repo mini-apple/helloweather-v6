@@ -114,19 +114,20 @@ const CreateUserEmail = ({ semesters }) => {
       uid: user.uid,
     };
 
+    // displayName 업데이트
+    await updateProfile(auth.currentUser, {
+      displayName: newProfileObj.name,
+    });
+
     // firestore에 newProfileObj를 저장
     try {
       const docRef = await setDoc(
         doc(db, "users", `${user.uid}`),
         newProfileObj
-      );
-      if (user.displayName !== newProfileObj.name) {
-        // displayName 업데이트
-        await updateProfile(auth.currentUser, {
-          displayName: newProfileObj.name,
-        });
-      }
-      alert("프로필이 저장되었습니다.");
+      ).then(() => {
+        alert("프로필이 저장되었습니다.");
+        window.location.replace("/");
+      });
     } catch (e) {
       alert(`프로필 저장에 실패했습니다.\nError adding document: ${e}`);
     }
@@ -168,7 +169,6 @@ const CreateUserEmail = ({ semesters }) => {
         const user = userCredential.user;
         alert("새로운 계정이 생성되었습니다.");
         onSaveProfile(user);
-        navigate("/login");
       })
       .catch((error) => {
         const errorCode = error.code;
