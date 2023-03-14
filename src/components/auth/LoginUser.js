@@ -89,6 +89,8 @@ function LoginUser({ isLoggedIn }) {
       });
   };
 
+  const [openAlert, setOpenAlert] = useState(true);
+
   return (
     <>
       <Paper
@@ -114,12 +116,26 @@ function LoginUser({ isLoggedIn }) {
               width: { xs: "100%", md: "35%" },
               border: "1px solid rgba(5, 5, 5, 20%)",
               borderRadius: "1rem",
-              padding: "1rem 1rem 2rem 1rem",
+              padding: "1rem",
               margin: "2rem 0rem 6rem 0rem",
             }}
           >
             <Box>
-              <Box sx={{ textAlign: "center", margin: "1rem 0rem" }}>
+              {openAlert && (
+                <Alert
+                  severity="warning"
+                  onClose={() => {
+                    setOpenAlert(false);
+                  }}
+                >
+                  카톡 인앱 브라우저에서는 카톡 브라우저의 보안이슈로 인해 구글
+                  로그인이 허용되지 않습니다. 타 브라우저 사용을 권장합니다.
+                  (403 오류)
+                </Alert>
+              )}
+            </Box>
+            <Box>
+              <Box sx={{ textAlign: "center", margin: "2rem 0rem 1rem 0rem" }}>
                 이메일/비밀번호 로그인
               </Box>
               <Box sx={{ marginBottom: "0.8rem" }}>
@@ -179,7 +195,7 @@ function LoginUser({ isLoggedIn }) {
                 소셜 로그인
               </Box>
 
-              <Box>
+              <Box mb={2}>
                 <Button
                   fullWidth
                   size="small"

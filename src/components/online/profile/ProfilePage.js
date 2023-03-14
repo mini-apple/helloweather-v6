@@ -379,17 +379,17 @@ const ProfilePage = ({ userObj, semesters }) => {
               <Button
                 variant="outlined"
                 size="small"
-                onClick={() => setShowEditProfile(!showEditProfile)}
-              >
-                프로필 편집
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
                 color="error"
                 onClick={onLogoutClick}
               >
                 로그아웃
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => setShowEditProfile(!showEditProfile)}
+              >
+                프로필 편집
               </Button>
             </Box>
           </Paper>
@@ -581,14 +581,13 @@ const ProfilePage = ({ userObj, semesters }) => {
                       </Box>
                     ))}
                   </Box>
-                  <Box sx={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={onSaveProfileInfo}
-                    >
-                      수정하기
-                    </Button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "1rem",
+                      marginTop: "2rem",
+                    }}
+                  >
                     <Button
                       disableElevation
                       variant="contained"
@@ -597,6 +596,13 @@ const ProfilePage = ({ userObj, semesters }) => {
                       onClick={onDeleteUser}
                     >
                       회원탈퇴
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={onSaveProfileInfo}
+                    >
+                      수정하기
                     </Button>
                   </Box>
                 </Box>

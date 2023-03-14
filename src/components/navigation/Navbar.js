@@ -15,6 +15,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "./Sidebar";
+import Divider from "@mui/material/Divider";
 
 import { signOut } from "firebase/auth";
 import { auth } from "fbase";
@@ -34,7 +35,7 @@ const Navbar = ({
   };
 
   return (
-    <AppBar position="sticky" color="whiteness">
+    <AppBar position="sticky" color="whiteness" elevation={1}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <IconButton
           onClick={() => setIsDrawerOpen(true)}

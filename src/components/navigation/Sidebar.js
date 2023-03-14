@@ -44,7 +44,13 @@ const Sidebar = ({
   });
 
   return (
-    <Box position="fixed" width={200} height="100vh" component={Paper}>
+    <Box
+      position="fixed"
+      width={200}
+      height="100vh"
+      bgcolor={"background.default"}
+      color={"text.primary"}
+    >
       <List>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <ListItem disablePadding>

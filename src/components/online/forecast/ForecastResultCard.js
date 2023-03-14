@@ -183,6 +183,7 @@ const ForecastResultCard = ({ participant, area_1, area_2 }) => {
       sx={{
         padding: { xs: "0.2rem 0.5rem", md: "0.2rem 1rem" },
         borderRadius: "0.5rem",
+        margin: "1rem 0rem",
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
