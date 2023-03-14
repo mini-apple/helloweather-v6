@@ -110,7 +110,7 @@ const CreateUserEmail = ({ semesters }) => {
       name: accountObj.name,
       photoURL: "",
       providerId: user.providerData[0].providerId,
-      spaceName: "@" + accountObj.spaceName,
+      spaceName: accountObj.spaceName,
       uid: user.uid,
     };
 

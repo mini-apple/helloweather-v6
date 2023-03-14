@@ -102,7 +102,7 @@ const ProfilePage = ({ userObj, semesters }) => {
         setProfile(data);
         setNewProfile({
           ...data,
-          spaceName: data.spaceName.slice(1),
+          spaceName: data.spaceName,
         });
       });
     }
@@ -187,7 +187,6 @@ const ProfilePage = ({ userObj, semesters }) => {
     try {
       const docRef = await setDoc(doc(db, "users", `${userObj.uid}`), {
         ...newProfile,
-        spaceName: "@" + newProfile.spaceName,
       });
 
       // displayName 업데이트
@@ -312,7 +311,7 @@ const ProfilePage = ({ userObj, semesters }) => {
                     color={"text.secondary"}
                     sx={{ fontSize: "0.8rem", lineHeight: "2.2rem" }}
                   >
-                    {profile.spaceName}
+                    {`@${profile.spaceName}`}
                   </Box>
                 </Box>
                 <Box>

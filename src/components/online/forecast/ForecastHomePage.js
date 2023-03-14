@@ -143,11 +143,11 @@ const ForecastHomePage = ({ semesters }) => {
                   <Box>{forecastGame.forecastDate.slice(5)}</Box>
                 </Box>
                 <Box>
-                  <Box sx={{ fontSize: "0.6rem" }}>인도자</Box>
+                  <Box sx={{ fontSize: "0.6rem", width: "4rem" }}>인도자</Box>
                   <Box>{forecastGame.leaderName}</Box>
                 </Box>
                 <Box>
-                  <Box sx={{ fontSize: "0.6rem" }}>제출됨</Box>
+                  <Box sx={{ fontSize: "0.6rem", width: "2rem" }}>제출됨</Box>
                   <Box>{Object.keys(forecastGame.userAnswerObj).length}</Box>
                 </Box>
                 <Box>
@@ -173,7 +173,7 @@ const ForecastHomePage = ({ semesters }) => {
                         navigate(
                           `/forecast/game/${selectSemester.slice(0, -2)}/${
                             forecastGame.timestamp
-                          }/${forecastGame.leaderSpaceName}`
+                          }/@${forecastGame.leaderSpaceName}`
                         );
                       }}
                     >
@@ -193,7 +193,7 @@ const ForecastHomePage = ({ semesters }) => {
                         navigate(
                           `/forecast/result/${selectSemester.slice(0, -2)}/${
                             forecastGame.timestamp
-                          }/${forecastGame.leaderSpaceName}`
+                          }/@${forecastGame.leaderSpaceName}`
                         );
                       }}
                     >

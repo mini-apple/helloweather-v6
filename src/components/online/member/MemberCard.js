@@ -34,7 +34,7 @@ const MemberCard = ({ member, semester }) => {
             {member.name}
           </Box>
           <Box color={"text.secondary"} sx={{ fontSize: "0.8rem" }}>
-            {member.spaceName}
+            {`@${member.spaceName}`}
           </Box>
         </Box>
 

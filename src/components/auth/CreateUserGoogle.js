@@ -92,7 +92,7 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
       name: retrievedObj.name,
       photoURL: user.photoURL,
       providerId: user.providerData[0].providerId,
-      spaceName: "@" + retrievedObj.spaceName,
+      spaceName: retrievedObj.spaceName,
       uid: user.uid,
     };
 

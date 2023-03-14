@@ -198,6 +198,7 @@ function StringForm() {
                 >
                   지역2
                 </Box>
+                <Divider />
                 <Box
                   bgcolor={"background.default"}
                   sx={{

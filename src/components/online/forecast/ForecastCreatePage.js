@@ -200,7 +200,7 @@ const ForecastCreatePage = ({ userObj }) => {
                 <Box mb={3}>
                   <Box sx={{ fontSize: "0.8rem" }}>Space Name</Box>
                   <Box sx={{ fontSize: "1.1rem" }}>
-                    {creatorObj.leaderSpaceName}
+                    {`@${creatorObj.leaderSpaceName}`}
                   </Box>
                 </Box>
                 <Box mb={3}>
