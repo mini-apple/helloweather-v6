@@ -13,6 +13,7 @@ import ForecastCreatePage from "./online/forecast/ForecastCreatePage";
 import ForecastGamePage from "./online/forecast/ForecastGamePage";
 import ForecastResultPage from "./online/forecast/ForecastResultPage";
 import ForecastLeaderPage from "./online/forecast/ForecastLeaderPage";
+import NotFound from "./NotFound";
 
 const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
   return (
@@ -103,6 +104,9 @@ const Router = ({ isLoggedIn, setIsLoggedIn, userObj, semesters }) => {
       <Route path="/calculator" element={<OfflineCalc />} />
       <Route path="/string" element={<OfflineString />} />
       <Route path="/criteria" element={<OfflineCriteria />} />
+
+      {/* Not Found */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
