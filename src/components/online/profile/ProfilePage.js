@@ -192,6 +192,24 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
 
   // 실제 저장
   const onSaveProfileInfo = async () => {
+    const spaceNamePattern = /^[a-zA-Z0-9_]{1}[a-zA-Z0-9_.]{0,29}$/;
+
+    if (
+      newProfile.name === "" ||
+      newProfile.entranceClub === "" ||
+      newProfile.entranceUniv === "" ||
+      newProfile.activityDetails.length === 0 ||
+      newProfile.spaceName === ""
+    ) {
+      alert("모든 정보를 입력해주세요!");
+      return;
+    } else if (!spaceNamePattern.test(newProfile.spaceName)) {
+      alert(
+        "Space Name은 영어, 숫자, 밑줄(_), 점(.)으로 이루어질 수 있습니다."
+      );
+      return;
+    }
+
     // firestore에 newProfileObj를 저장
     try {
       const docRef = await setDoc(doc(db, "users", `${userObj.uid}`), {

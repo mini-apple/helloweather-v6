@@ -20,7 +20,9 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import GoogleIcon from "@mui/icons-material/Google";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Alert from "@mui/material/Alert";
+import Popover from "@mui/material/Popover";
 
 function LoginUser({ isLoggedIn }) {
   const [email, setEmail] = useState("");
@@ -91,6 +93,20 @@ function LoginUser({ isLoggedIn }) {
 
   const [openAlert, setOpenAlert] = useState(true);
 
+  // popover
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   return (
     <>
       <Paper
@@ -102,12 +118,16 @@ function LoginUser({ isLoggedIn }) {
       >
         <Box
           sx={{
+            display: "flex",
             fontSize: "1.1rem",
             fontWeight: "500",
             marginBottom: "2rem",
           }}
         >
-          로그인 후 이용해주세요!
+          <IconButton size="small" onClick={handleClick}>
+            <InfoOutlinedIcon fontSize="inherit" />
+          </IconButton>
+          <Box>로그인 후 이용해주세요!</Box>
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -263,6 +283,32 @@ function LoginUser({ isLoggedIn }) {
           </Button>
         </Paper>
       )}
+
+      {/* Popover */}
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "90%", md: "20vw" },
+            padding: "1rem",
+            fontSize: "0.9rem",
+          }}
+        >
+          <Box>
+            '구글 계정으로 로그인하기'도 계정생성하기 페이지에서 회원가입을 통해
+            초기정보를 설정해주세요. 만약 회원가입을 하지 않고 로그인을 했다면
+            프로필 페이지에서 초기정보를 설정해주세요.
+          </Box>
+        </Box>
+      </Popover>
     </>
   );
 }

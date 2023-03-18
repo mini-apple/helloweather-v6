@@ -70,6 +70,8 @@ const marks = [
 ];
 
 function Calculator() {
+  const [ansVerify, setAnsVerify] = useState(false);
+
   const [answer, setAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [difference, setDifference] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [result, setResult] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -112,6 +114,12 @@ function Calculator() {
   };
 
   const onScore = () => {
+    if (!ansVerify) {
+      alert(
+        "정답이 입력되지 않았습니다.\n인도자로부터 정답코드를 받아 입력해주세요!"
+      );
+      return;
+    }
     if (
       L1.cloudiness === null ||
       L1.windDirection === null ||
@@ -124,7 +132,7 @@ function Calculator() {
       L2.temperature === null ||
       L2.precipitation === null
     ) {
-      alert("입력되지 않은 항목이 있습니다.\n모든 항목을 입력해주세요!");
+      alert("입력되지 않은 항목이 있습니다.\n나의 답안을 모두 입력해주세요!");
       return;
     }
 
@@ -421,7 +429,11 @@ function Calculator() {
             >
               정답코드 입력하기
             </Box>
-            <StringInput setAnswer={setAnswer} />
+            <StringInput
+              ansVerify={ansVerify}
+              setAnsVerify={setAnsVerify}
+              setAnswer={setAnswer}
+            />
           </Paper>
 
           <Paper

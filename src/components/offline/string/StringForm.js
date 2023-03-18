@@ -11,10 +11,15 @@ import InputTemperature from "components/input/InputTemperature";
 import InputPrecipitation from "components/input/InputPrecipitation";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
+import Snackbar from "@mui/material/Snackbar";
+
+import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function StringForm() {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const [L1, setL1] = useState({
     cloudiness: null,
     windDirection: null,
@@ -56,7 +61,9 @@ function StringForm() {
       L2.temperature === null ||
       L2.precipitation === null
     ) {
-      alert("입력되지 않은 항목이 있습니다. \n모든 항목을 입력해주세요!");
+      alert(
+        "입력되지 않은 항목이 있습니다. \n답안의 모든 항목을 입력해주세요!"
+      );
       return;
     }
     const plainText = `${L1.cloudiness}/${L1.windDirection}/${L1.windSpeed}/${L1.temperature}/${L1.precipitation}/${L2.cloudiness}/${L2.windDirection}/${L2.windSpeed}/${L2.temperature}/${L2.precipitation}`;
@@ -66,12 +73,27 @@ function StringForm() {
   const onCopy = async () => {
     try {
       await window.navigator.clipboard.writeText(string).then(() => {
-        alert("복사되었습니다.");
+        setOpenSnackbar(true);
       });
     } catch (e) {
       alert(e);
     }
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const action = (
+    <>
+      <IconButton size="small" color="primary" onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   const theme = createTheme({
     typography: {
@@ -302,6 +324,13 @@ function StringForm() {
           </Paper>
         </Grid>
       </Grid>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2500}
+        onClose={handleClose}
+        message="정답코드가 복사되었습니다."
+        action={action}
+      />
     </>
   );
 }

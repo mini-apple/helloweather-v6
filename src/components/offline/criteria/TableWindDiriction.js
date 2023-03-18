@@ -132,7 +132,7 @@ function TableWindDirection() {
           bgcolor={"background.default"}
           color={"text.primary"}
           sx={{
-            width: "60vw",
+            width: "75vw",
             position: "absolute",
             top: "50%",
             left: "50%",

@@ -18,9 +18,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-export default function StringInput({ setAnswer }) {
+export default function StringInput({ ansVerify, setAnsVerify, setAnswer }) {
   const [string, setString] = useState("");
-  const [ansVerify, setAnsVerify] = useState(false);
   const [answerList, setAnswerList] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const onStringChange = (event) => {

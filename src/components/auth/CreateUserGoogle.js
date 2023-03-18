@@ -116,6 +116,8 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
   };
 
   const onGoogleCreate = async () => {
+    const spaceNamePattern = /^[a-zA-Z0-9_]{1}[a-zA-Z0-9_.]{0,29}$/;
+
     if (
       accountObj.name === "" ||
       accountObj.entranceClub === "" ||
@@ -124,6 +126,11 @@ const CreateUserGoogle = ({ isLoggedIn, semesters }) => {
       accountObj.spaceName === ""
     ) {
       alert("모든 정보를 입력해주세요!");
+      return;
+    } else if (!spaceNamePattern.test(accountObj.spaceName)) {
+      alert(
+        "Space Name은 영어, 숫자, 밑줄(_), 점(.)으로 이루어질 수 있습니다."
+      );
       return;
     }
 

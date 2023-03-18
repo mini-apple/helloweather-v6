@@ -19,12 +19,12 @@ import "./Homepage.css";
 const offlineExplains = [
   {
     label: "정답코드 만들기 (인도자)",
-    description: `인도자는 예보게임 준비가 끝났다면 멤버들을 위해 정답코드를 만들어봅시다.  
+    description: `예보게임 준비가 끝났다면 인도자는 멤버들을 위해 정답코드를 만들어봅시다.  
                   준비한 정답을 입력해서 정답코드를 생성해보세요.`,
   },
   {
     label: "예보게임",
-    description: `예보게임이 끝났다면 이제 채점을 해봅시다. 인도자는 정답코드를 복사해서 멤버들에게 공유해줍니다.`,
+    description: `예보게임이 끝나면 이제 채점을 해봅시다. 인도자는 정답코드를 복사해서 멤버들에게 공유해줍니다.`,
   },
   {
     label: "채점하기 (멤버)",
@@ -42,7 +42,7 @@ const onlineExplains = [
   },
   {
     label: "예보게임 (멤버)",
-    description: `멤버들은 해당 예보게임에 들어가서 자신의 정답을 입력해주세요.`,
+    description: `멤버들은 해당 예보게임에 들어가서 자신의 정답을 제출해주세요.`,
   },
   {
     label: "채점하기 (인도자)",
@@ -112,23 +112,18 @@ const Homepage = () => {
             }}
           >
             <AlertTitle>
-              <Box>헬로웨더 예보채점 사이트 개편안내</Box>
+              <Box>헬로웨더 예보채점 사이트 업데이트</Box>
             </AlertTitle>
             <Box mt={2}>
-              2023 워크숍에서 말씀드린 홈페이지 변경사항을 간략히 안내드립니다.
+              2023 워크숍에서 말씀드린 홈페이지 업데이트 사항을 간략히
+              안내드립니다.
             </Box>
             <Box mt={1}>1. 기존 채점방법은 동일하게 사용가능합니다.</Box>
-            <Box>2. 추가된 온라인 채점은 계정생성 후 이용이 가능합니다.</Box>
-            <Box mt={1}>계정생성조건 : 헬로웨더 전, 현멤버</Box>
-
+            <Box>2. 추가된 온라인 기능은 계정생성 후 이용이 가능합니다.</Box>
             <Box mt={1}>
-              3월 18일까지 누구나 자유롭게 테스트해주시고 문제 발견시 편하게
-              알려주시길 바랍니다.
+              문제점이나 의견은 언제든 편하게 알려주시기 바랍니다. 감사합니다 :)
             </Box>
-            <Box>
-              점검에 사용된 테스트 데이터가 남아있습니다. 추후 일괄 삭제
-              처리하겠습니다.
-            </Box>
+            <Box mt={1}>2023.03.12</Box>
           </Alert>
         )}
         <Box
@@ -142,7 +137,7 @@ const Homepage = () => {
         >
           <Box>
             <Box
-              mt={10}
+              mt={20}
               mb={4}
               className="test"
               sx={{ fontSize: { xs: "3rem", md: "4rem" } }}
@@ -154,13 +149,13 @@ const Homepage = () => {
                 부산대학교 대기환경과학과 학술동아리 Hello Weather입니다.
               </Box>
             </Fade>
-            <Box mb={10}>
+            <Box>
               <Button variant="outlined" onClick={onLoginPage}>
                 예보게임 시작하기
               </Button>
             </Box>
 
-            <Box mt={20} mb={5} sx={{ fontSize: "1.5rem" }}>
+            <Box mt={30} mb={5} sx={{ fontSize: "1.5rem" }}>
               간편하고 쉬운 오프라인 채점
             </Box>
             <Box
@@ -227,7 +222,7 @@ const Homepage = () => {
             <Box
               sx={{
                 maxWidth: "40rem",
-                marginBottom: "5rem",
+                marginBottom: "10rem",
               }}
             >
               <Stepper activeStep={activeOnlineStep} orientation="vertical">
