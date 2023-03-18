@@ -471,11 +471,20 @@ const ForecastLeaderPage = ({ userObj }) => {
   };
 
   const deleteForecast = async () => {
-    const ok = window.confirm(`정말 해당 예보게임을 삭제하시겠습니까?`);
+    const confirm = window.confirm(`정말 해당 예보게임을 삭제하시겠습니까?`);
 
-    if (ok) {
-      await deleteDoc(doc(db, `${semester}`, id));
-      navigate("/forecast");
+    if (confirm) {
+      const prompt = window.prompt(
+        `등록번호를 똑같이 입력해주세요.\n\n등록번호: ${id}`
+      );
+
+      if (prompt === id) {
+        await deleteDoc(doc(db, `${semester}`, id));
+        alert("예보게임이 삭제되었습니다.");
+        navigate("/forecast");
+      } else {
+        alert("예보게임 삭제를 실패했습니다.");
+      }
     }
   };
 

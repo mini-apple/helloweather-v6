@@ -17,6 +17,7 @@ function InputTemperature({ data, setData, text, setText }) {
     <Box
       sx={{ width: { xs: "38vw", md: "100%" }, marginBottom: "0.7rem" }}
       component="form"
+      autoComplete="off"
     >
       <TextField
         fullWidth

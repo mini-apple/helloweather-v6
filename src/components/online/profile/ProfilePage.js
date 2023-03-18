@@ -271,26 +271,37 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
   };
 
   const onDeleteUser = async () => {
-    const ok = window.confirm(
-      `${userObj.displayName}님의 모든 예보기록 및 회원정보가 삭제됩니다.\n회원탈퇴를 하시겠습니까?`
+    const confirm = window.confirm(
+      `${userObj.displayName}님의 모든 예보기록 및 회원정보가 영구삭제됩니다.\n회원탈퇴를 하시겠습니까?`
     );
 
-    if (ok) {
-      const user = auth.currentUser;
+    if (confirm) {
+      const prompt = window.prompt(
+        `이름을 똑같이 입력해주세요.\n\n이름: ${userObj.displayName}`
+      );
 
-      await deleteDoc(doc(db, "users", user.uid));
+      if (prompt === userObj.displayName) {
+        const user = auth.currentUser;
 
-      deleteUser(user)
-        .then(() => {
-          alert(
-            `${userObj.displayName}님의 회원탈퇴가 정상적으로 처리되었습니다.`
-          );
-        })
-        .catch((e) => {
-          // An error ocurred
-          alert(`${e.Code}\n회원탈퇴 실패`);
-        });
+        deleteUser(user)
+          .then(() => {
+            deleteUserFirestore(user.uid);
+            alert(
+              `${userObj.displayName}님의 회원탈퇴가 정상적으로 처리되었습니다.`
+            );
+          })
+          .catch((e) => {
+            // An error ocurred
+            alert(`${e.Code}\n회원탈퇴에 실패했습니다.`);
+          });
+      } else {
+        alert(`회원탈퇴에 실패했습니다.`);
+      }
     }
+  };
+
+  const deleteUserFirestore = async (uid) => {
+    await deleteDoc(doc(db, "users", uid));
   };
 
   return (
@@ -663,14 +674,14 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  padding: "0.5rem 1rem",
+                  padding: { xs: "0.5rem 0rem", md: "0.5rem 1rem" },
                   borderRadius: "0.5rem",
                 }}
               >
-                <Box sx={{ width: "5rem", textAlign: "center" }}>일시</Box>
-                <Box>인도자</Box>
-                <Box sx={{ width: "4rem", textAlign: "center" }}>지역</Box>
-                <Box>점수</Box>
+                <Box sx={{ width: "6rem", textAlign: "center" }}>일시</Box>
+                <Box sx={{ width: "5rem", textAlign: "center" }}>인도자</Box>
+                <Box sx={{ width: "5rem", textAlign: "center" }}>지역</Box>
+                <Box sx={{ width: "4rem", textAlign: "center" }}>점수</Box>
               </Box>
             </Paper>
             {profile.forecastLog.map((forecast) => (
@@ -678,13 +689,21 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  padding: "0.5rem 1rem",
+                  padding: { xs: "0.5rem 0rem", md: "0.5rem 1rem" },
                 }}
               >
-                <Box>{forecast.forecastDate}</Box>
-                <Box>{forecast.leaderName}</Box>
-                <Box>{forecast.area}</Box>
-                <Box>{forecast.score}</Box>
+                <Box sx={{ width: "6rem", textAlign: "center" }}>
+                  {forecast.forecastDate}
+                </Box>
+                <Box sx={{ width: "5rem", textAlign: "center" }}>
+                  {forecast.leaderName}
+                </Box>
+                <Box sx={{ width: "5rem", textAlign: "center" }}>
+                  {forecast.area}
+                </Box>
+                <Box sx={{ width: "4rem", textAlign: "center" }}>
+                  {forecast.score}
+                </Box>
               </Box>
             ))}
           </Paper>

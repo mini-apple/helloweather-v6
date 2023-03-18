@@ -188,11 +188,11 @@ const ForecastResultCard = ({ participant, area_1, area_2 }) => {
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <Box sx={{ fontSize: "0.6rem" }}>이름</Box>
+          <Box sx={{ width: "5rem", fontSize: "0.6rem" }}>이름</Box>
           <Box>{participant.userName}</Box>
         </Box>
         <Box>
-          <Box sx={{ fontSize: "0.6rem" }}>점수</Box>
+          <Box sx={{ width: "5rem", fontSize: "0.6rem" }}>점수</Box>
           <Box>{participant.userScore}</Box>
         </Box>
         <Box sx={{ lineHeight: "2.1rem" }}>

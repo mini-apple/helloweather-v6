@@ -11,16 +11,14 @@ import Divider from "@mui/material/Divider";
 import { db } from "fbase";
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import MemberCard from "./MemberCard";
-import { textAlign } from "@mui/system";
 
 const MemberPage = ({ semesters }) => {
   const [selectSemester, setSelectSemester] = useState(semesters[0]);
-  const [titleSemester, setTitleSemester] = useState(semesters[0]);
   const [memberList, setMemberList] = useState([]);
 
   useEffect(() => {
     onGetMember();
-  }, []);
+  }, [selectSemester]);
 
   const handleChange = (event) => {
     const {
@@ -46,7 +44,6 @@ const MemberPage = ({ semesters }) => {
     });
 
     setMemberList(list);
-    setTitleSemester(selectSemester);
   };
 
   return (
@@ -66,12 +63,12 @@ const MemberPage = ({ semesters }) => {
             marginBottom: "2rem",
           }}
         >
-          학기선택
+          멤버정보 가져오기
         </Box>
         <Box>
           <Box
             sx={{
-              width: { xs: "100%", md: "25%" },
+              width: { xs: "100%", md: "20%" },
               display: "flex",
               gap: "0.5rem",
             }}
@@ -91,13 +88,6 @@ const MemberPage = ({ semesters }) => {
                 ))}
               </Select>
             </FormControl>
-            <Button
-              variant="outlined"
-              onClick={onGetMember}
-              sx={{ width: "8rem", padding: "0rem" }}
-            >
-              불러오기
-            </Button>
           </Box>
         </Box>
 
@@ -112,7 +102,7 @@ const MemberPage = ({ semesters }) => {
             marginBottom: "2rem",
           }}
         >
-          {titleSemester}
+          {selectSemester}
         </Box>
         <Box
           bgcolor={"action.hover"}
@@ -134,7 +124,7 @@ const MemberPage = ({ semesters }) => {
               <MemberCard
                 key={member.uid}
                 member={member}
-                semester={titleSemester}
+                semester={selectSemester}
               />
             ))
           )}

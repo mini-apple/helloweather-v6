@@ -69,7 +69,7 @@ const ForecastHomePage = ({ semesters }) => {
             marginBottom: "2rem",
           }}
         >
-          학기선택
+          예보게임 불러오기
         </Box>
         <Box>
           <Box

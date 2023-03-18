@@ -121,9 +121,9 @@ const Homepage = () => {
             <Box mt={1}>1. 기존 채점방법은 동일하게 사용가능합니다.</Box>
             <Box>2. 추가된 온라인 기능은 계정생성 후 이용이 가능합니다.</Box>
             <Box mt={1}>
-              문제점이나 의견은 언제든 편하게 알려주시기 바랍니다. 감사합니다 :)
+              오류정보나 의견은 언제든 편하게 알려주시길 바랍니다 :)
             </Box>
-            <Box mt={1}>2023.03.12</Box>
+            <Box mt={1}>2023.03.18.</Box>
           </Alert>
         )}
         <Box
@@ -137,7 +137,7 @@ const Homepage = () => {
         >
           <Box>
             <Box
-              mt={20}
+              mt={25}
               mb={4}
               className="test"
               sx={{ fontSize: { xs: "3rem", md: "4rem" } }}
