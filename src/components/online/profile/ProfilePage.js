@@ -208,6 +208,9 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
         "Space Name은 영어, 숫자, 밑줄(_), 점(.)으로 이루어질 수 있습니다."
       );
       return;
+    } else if (newProfile.entranceUniv.length !== 4) {
+      alert("학번은 4자리 입학연도로 입력해주세요.");
+      return;
     }
 
     // firestore에 newProfileObj를 저장
