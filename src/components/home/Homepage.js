@@ -59,7 +59,7 @@ const onlineExplains = [
 const Homepage = () => {
   let navigate = useNavigate();
 
-  const [homepageAlert, setHomepageAlert] = useState(true);
+  const [homepageAlert, setHomepageAlert] = useState(false);
 
   const onLoginPage = () => {
     navigate("/forecast");

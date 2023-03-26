@@ -52,7 +52,7 @@ const Footer = () => {
             </Box>
             <Box>
               <Link
-                href="https://github.com/mini-apple/helloweather-v5"
+                href="https://github.com/mini-apple/helloweather-v6"
                 underline="none"
                 color="inherit"
               >
