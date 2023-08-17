@@ -12,7 +12,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "./Sidebar";
-import Divider from "@mui/material/Divider";
 
 import { signOut } from "firebase/auth";
 import { auth } from "fbase";

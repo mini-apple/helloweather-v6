@@ -46,8 +46,8 @@ const onlineExplains = [
   },
   {
     label: "채점하기 (인도자)",
-    description: `인도자는 모두의 정답이 입력된 것을 확인한 후 채점하기를 클릭해주세요.
-                  `,
+    description: `인도자는 해당 예보게임에 들어가면 인도자만 갈 수 있는 채점 관리 페이지가 있습니다.
+                  채점 관리 페이지에서 모두의 정답이 입력된 것을 확인한 후 채점하기를 클릭해주세요.`,
   },
   {
     label: "결과 확인",
@@ -59,7 +59,7 @@ const onlineExplains = [
 const Homepage = () => {
   let navigate = useNavigate();
 
-  const [homepageAlert, setHomepageAlert] = useState(false);
+  const [homepageAlert, setHomepageAlert] = useState(true);
 
   const onLoginPage = () => {
     navigate("/forecast");
@@ -112,18 +112,20 @@ const Homepage = () => {
             }}
           >
             <AlertTitle>
-              <Box>헬로웨더 예보채점 사이트 업데이트</Box>
+              <Box>구글계정 로그인 안내</Box>
             </AlertTitle>
-            <Box mt={2}>
-              2023 워크숍에서 말씀드린 홈페이지 업데이트 사항을 간략히
-              안내드립니다.
+            <Box mt={2}>1. 이미 구글 로그인을 한 적이 있어요!</Box>
+            <Box mt={0.5}>
+              로그인 후 프로필 탭에 가시면 프로필 편집 버튼이 있습니다. 여기서
+              프로필 정보를 입력한 후 저장해주시면 됩니다. 꼭꼭 모든 멤버가 이
+              과정을 진행한 후 채점해주세요!!
             </Box>
-            <Box mt={1}>1. 기존 채점방법은 동일하게 사용가능합니다.</Box>
-            <Box>2. 추가된 온라인 기능은 계정생성 후 이용이 가능합니다.</Box>
-            <Box mt={1}>
-              오류정보나 의견은 언제든 편하게 알려주시길 바랍니다 :)
+
+            <Box mt={2.5}>2. 아직 로그인을 한 적이 없다면?</Box>
+            <Box mt={0.5}>
+              계정생성하기 - 구글회원가입 절차를 따라주세요! 계정정보가 자동
+              세팅됩니다.
             </Box>
-            <Box mt={1}>2023.03.18.</Box>
           </Alert>
         )}
         <Box

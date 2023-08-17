@@ -143,7 +143,7 @@ const ForecastHomePage = ({ semesters }) => {
                   <Box>{forecastGame.forecastDate.slice(5)}</Box>
                 </Box>
                 <Box>
-                  <Box sx={{ fontSize: "0.6rem", width: "4rem" }}>인도자</Box>
+                  <Box sx={{ fontSize: "0.6rem", width: "3.5rem" }}>인도자</Box>
                   <Box>{forecastGame.leaderName}</Box>
                 </Box>
                 <Box>
@@ -151,7 +151,14 @@ const ForecastHomePage = ({ semesters }) => {
                   <Box>{Object.keys(forecastGame.userAnswerObj).length}</Box>
                 </Box>
                 <Box>
-                  <Box sx={{ fontSize: "0.6rem" }}>지역</Box>
+                  <Box
+                    sx={{
+                      fontSize: "0.6rem",
+                      width: "5.5rem",
+                    }}
+                  >
+                    지역
+                  </Box>
                   <Box>{`${forecastGame.area_1},  ${forecastGame.area_2}`}</Box>
                 </Box>
                 <Box sx={{ display: { xs: "none", md: "block" } }}>

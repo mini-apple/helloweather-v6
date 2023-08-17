@@ -280,7 +280,7 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
 
     if (confirm) {
       const prompt = window.prompt(
-        `이름을 똑같이 입력해주세요.\n\n이름: ${userObj.displayName}`
+        `이름을 똑같이 입력해주세요.\n(만약 회원탈퇴가 진행되지 않는다면 재로그인 후 다시시도해주세요!)\n\n이름: ${userObj.displayName}`
       );
 
       if (prompt === userObj.displayName) {
@@ -373,9 +373,9 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
                       <Box mb={2}>
                         <Box sx={{ fontSize: "0.9rem" }}>Verified by.</Box>
                         <Box>
-                          {profile.providerId === "password"
+                          {userObj.provider === "password"
                             ? "E-mail"
-                            : profile.providerId}
+                            : userObj.provider}
                         </Box>
                       </Box>
                     </Box>
@@ -383,7 +383,7 @@ const ProfilePage = ({ userObj, refreshUserObj, semesters }) => {
                     <Box>
                       <Box mb={2}>
                         <Box sx={{ fontSize: "0.9rem" }}>이메일</Box>
-                        <Box>{profile.email}</Box>
+                        <Box>{userObj.email}</Box>
                       </Box>
                     </Box>
                   </Box>

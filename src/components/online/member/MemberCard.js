@@ -39,7 +39,7 @@ const MemberCard = ({ member, semester }) => {
         </Box>
 
         <Box sx={{ display: "flex", gap: "1rem", margin: "0.4rem 0rem" }}>
-          <Box width="4.5rem">
+          <Box width="2.5rem">
             <Box sx={{ fontSize: "0.6rem" }}>학번</Box>
             <Box sx={{ fontSize: "0.9rem" }}>{member.entranceUniv}</Box>
           </Box>

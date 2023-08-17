@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Homepage from "components/home/Homepage";
 import OnlineProfile from "routes/OnlineProfile";
 import OnlineMember from "routes/OnlineMember";
@@ -15,6 +15,9 @@ import ForecastResultPage from "./online/forecast/ForecastResultPage";
 import ForecastLeaderPage from "./online/forecast/ForecastLeaderPage";
 import NotFound from "./NotFound";
 
+import { db } from "fbase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
 const Router = ({
   isLoggedIn,
   setIsLoggedIn,
@@ -22,6 +25,27 @@ const Router = ({
   refreshUserObj,
   semesters,
 }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // firestore에 userData가 있는지 확인
+      checkHavingUserData(userObj.uid, userObj.displayName);
+    }
+  }, []);
+
+  const checkHavingUserData = async (userUID, userName) => {
+    const q = query(collection(db, "users"), where("uid", "==", userUID));
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      alert(
+        `${userName}님의 유저정보가 없습니다.\n프로필탭의 프로필 편집에서 유저정보를 저장해주세요!`
+      );
+      navigate("/profile");
+    }
+  };
+
   return (
     <Routes>
       {/* Homepage */}

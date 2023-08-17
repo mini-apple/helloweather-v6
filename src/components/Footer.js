@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Link from "@mui/material/Link";
 
@@ -27,7 +28,7 @@ const Footer = () => {
         <Box>
           <Box
             sx={{
-              width: "16rem",
+              width: "18rem",
               display: "flex",
               justifyContent: "space-between",
             }}
@@ -48,6 +49,15 @@ const Footer = () => {
                 color="inherit"
               >
                 방재기상정보시스템
+              </Link>
+            </Box>
+            <Box>
+              <Link
+                href="https://www.instagram.com/pnu_helloweather/"
+                underline="none"
+                color="inherit"
+              >
+                <InstagramIcon />
               </Link>
             </Box>
             <Box>
